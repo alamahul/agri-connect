@@ -1,98 +1,168 @@
-import React, { useState } from 'react';
-import { Plus, Search, Filter, Edit3, Trash2, MoreVertical, AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
+import {
+  Warehouse, Package, TrendingUp, AlertTriangle, Plus,
+  Search, Filter, Eye, Edit2, Trash2
+} from 'lucide-react';
+import { inventoryProducts } from '../data/dummyData';
+
+const stats = [
+  { label: 'Total Produk', value: '48', icon: Package, color: 'bg-emerald-600' },
+  { label: 'Kapasitas Terpakai', value: '73%', icon: TrendingUp, color: 'bg-blue-600' },
+  { label: 'Stok Kritis', value: '2', icon: AlertTriangle, color: 'bg-red-500' },
+];
+
+const statusBadge = (status) => {
+  if (status === 'In Stock') return 'bg-emerald-100 text-emerald-700';
+  if (status === 'Low Stock') return 'bg-amber-100 text-amber-700';
+  if (status === 'Kritis') return 'bg-red-100 text-red-700';
+  return 'bg-slate-100 text-slate-600';
+};
+
+const tabs = ['Semua', 'In Stock', 'Low Stock', 'Kritis'];
 
 const GudangProduk = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState('Semua');
+  const [search, setSearch] = useState('');
+
+  const filtered = inventoryProducts.filter((p) => {
+    const matchTab = activeTab === 'Semua' || p.status === activeTab;
+    const matchSearch = p.nama.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
+    return matchTab && matchSearch;
+  });
 
   return (
-    <div className="space-y-6">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Gudang Produk</h1>
-          <p className="text-sm text-gray-500">Kelola stok dan harga komoditas pertanian Anda.</p>
+          <h2 className="text-base font-bold text-slate-800">Gudang Produk</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Manajemen stok dan inventaris produk pertanian</p>
         </div>
-        <button className="flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-green-200">
-          <Plus size={20} />
+        <button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-[6px] transition-colors">
+          <Plus size={14} />
           Tambah Produk
         </button>
       </div>
 
-      {/* Toolbar: Search & Filter */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input 
-            type="text"
-            placeholder="Cari nama produk..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <button className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-600 font-semibold hover:bg-gray-50 transition-all">
-          <Filter size={18} />
-          Filter
-        </button>
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {INVENTORY_DATA.map((product) => (
-          <div key={product.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
-            {/* Image Section */}
-            <div className="relative h-48 overflow-hidden">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              <div className="absolute top-3 left-3">
-                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${
-                  product.status === 'Tersedia' ? 'bg-green-500 text-white' : 
-                  product.status === 'Stok Menipis' ? 'bg-orange-500 text-white' : 'bg-red-500 text-white'
-                }`}>
-                  {product.status}
-                </span>
-              </div>
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {stats.map((s, i) => (
+          <div key={i} className="bg-white rounded-[6px] border border-slate-100 shadow-sm p-4 flex items-center gap-3">
+            <div className={`w-10 h-10 ${s.color} rounded-[6px] flex items-center justify-center flex-shrink-0`}>
+              <s.icon size={18} className="text-white" />
             </div>
-
-            {/* Detail Section */}
-            <div className="p-5">
-              <div className="flex justify-between items-start mb-1">
-                <p className="text-xs font-bold text-green-700 uppercase">{product.category}</p>
-                <button className="text-gray-400 hover:text-gray-600"><MoreVertical size={18} /></button>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">{product.name}</h3>
-              
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="text-xs text-gray-400 font-medium">Harga per {product.unit}</p>
-                  <p className="text-lg font-black text-gray-900">Rp {product.price.toLocaleString('id-ID')}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-400 font-medium">Sisa Stok</p>
-                  <p className={`text-lg font-bold ${product.stock < 10 ? 'text-orange-600' : 'text-gray-900'}`}>
-                    {product.stock} {product.unit}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-3 mt-5">
-                <button className="flex items-center justify-center gap-2 py-2 bg-gray-50 text-gray-600 rounded-lg text-sm font-bold hover:bg-gray-100 transition-all">
-                  <Edit3 size={16} /> Edit
-                </button>
-                <button className="flex items-center justify-center gap-2 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-bold hover:bg-red-100 transition-all">
-                  <Trash2 size={16} /> Hapus
-                </button>
-              </div>
+            <div>
+              <p className="text-xl font-bold text-slate-800">{s.value}</p>
+              <p className="text-xs text-slate-500">{s.label}</p>
             </div>
-            
-            {/* Low Stock Warning Overlay */}
-            {product.stock < 10 && product.stock > 0 && (
-              <div className="bg-orange-50 px-5 py-2 flex items-center gap-2 border-t border-orange-100">
-                <AlertTriangle size={14} className="text-orange-600" />
-                <p className="text-[10px] font-bold text-orange-700 uppercase tracking-tight">Segera Perbarui Stok!</p>
-              </div>
-            )}
           </div>
         ))}
+      </div>
+
+      {/* Table Card */}
+      <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm">
+        {/* Toolbar */}
+        <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+          {/* Tabs */}
+          <div className="flex gap-1 bg-slate-100 p-0.5 rounded-[6px] w-fit">
+            {tabs.map((t) => (
+              <button
+                key={t}
+                onClick={() => setActiveTab(t)}
+                className={`px-3 py-1 text-xs font-semibold rounded-[6px] transition-all ${activeTab === t ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          {/* Search */}
+          <div className="relative max-w-xs">
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Cari produk..."
+              className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-[6px] text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            />
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50/50">
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">ID Produk</th>
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Nama Produk</th>
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Kategori</th>
+                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Stok</th>
+                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Harga / Satuan</th>
+                <th className="text-center px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                <th className="text-center px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="text-center py-10 text-sm text-slate-400">
+                    Tidak ada produk ditemukan
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((p) => (
+                  <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="px-4 py-3">
+                      <span className="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-[6px]">{p.id}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <p className="text-xs font-semibold text-slate-800">{p.nama}</p>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs text-slate-500">{p.kategori}</span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <p className="text-xs font-bold text-slate-800">{p.stok.toLocaleString('id-ID')}</p>
+                      <p className="text-[10px] text-slate-400">{p.satuan}</p>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <p className="text-xs font-semibold text-slate-700">Rp {p.harga.toLocaleString('id-ID')}</p>
+                      <p className="text-[10px] text-slate-400">/ {p.satuan}</p>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={`inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-[6px] ${statusBadge(p.status)}`}>
+                        {p.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-center gap-1">
+                        <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-[6px] transition-colors">
+                          <Eye size={13} />
+                        </button>
+                        <button className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[6px] transition-colors">
+                          <Edit2 size={13} />
+                        </button>
+                        <button className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-[6px] transition-colors">
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Footer */}
+        <div className="px-4 py-3 border-t border-slate-100 flex items-center justify-between">
+          <p className="text-xs text-slate-400">Menampilkan {filtered.length} dari {inventoryProducts.length} produk</p>
+          <div className="flex gap-1">
+            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Sebelumnya</button>
+            <button className="px-2.5 py-1 text-xs border border-emerald-500 bg-emerald-50 rounded-[6px] text-emerald-700 font-semibold">1</button>
+            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Selanjutnya</button>
+          </div>
+        </div>
       </div>
     </div>
   );
