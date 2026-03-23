@@ -1,128 +1,172 @@
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Sprout, Mail, Lock, User, Briefcase, Loader2 } from 'lucide-react';
-
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, User, Sprout, ArrowRight, MapPin, FileText, CheckCircle } from 'lucide-react';
 
-const RegisterPage = ({ role }) => {
-  const validRole = role === 'pembeli' || role === 'admin' ? role : 'petani'; // Default/Fallback to petani
-  
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register } = useAuth();
+const RegisterPage = () => {
+  const [showPass, setShowPass] = useState(false);
+  const [role, setRole] = useState('pembeli');
+  const [step, setStep] = useState(1);
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!fullName || !email || !password) {
-      setError('Harap isi semua kolom.');
+    if (role === 'petani' && step === 1) {
+      setStep(2);
       return;
     }
-
-    try {
-      setError('');
-      setIsSubmitting(true);
-      const user = await register(email, password, validRole, fullName);
-      navigate(`/login/${validRole}`, { state: { registeredEmail: user.email } });
-    } catch (err) {
-      setError(err.message || 'Pendaftaran gagal.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    setSubmitted(true);
+    setTimeout(() => navigate('/login'), 2500);
   };
 
-  return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 py-12 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="w-full max-w-md z-10">
-        <div className="flex flex-col items-center mb-8">
-          <Link to="/" className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 mb-4 hover:scale-105 transition-transform">
-            <Sprout size={24} className="text-white" />
-          </Link>
-          <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">
-            Register {validRole === 'pembeli' ? 'Pembeli' : 'Petani'}
-          </h1>
-          <p className="text-slate-400 text-sm text-center">Bergabung dengan platform pertanian terkemuka.</p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
-          {error && (
-            <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300 ml-1">Nama Lengkap</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <User size={18} />
-                </div>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all sm:text-sm"
-                  placeholder=""
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300 ml-1">Email</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <Mail size={18} />
-                </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all sm:text-sm"
-                  placeholder=""
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300 ml-1">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <Lock size={18} />
-                </div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all sm:text-sm"
-                  placeholder="Minimal 8 karakter"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white text-sm font-semibold px-4 py-3 rounded-xl transition-colors shadow-lg shadow-emerald-500/25 mt-6"
-            >
-              {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : 'Daftar Sekarang'}
-            </button>
-          </form>
-
-          <p className="mt-6 text-center text-sm text-slate-400">
-            Sudah punya akun?{' '}
-            <Link to={`/login/${validRole}`} className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-              Masuk
-            </Link>
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-24 h-24 bg-emerald-100 rounded flex items-center justify-center mx-auto mb-6 animate-bounce">
+            <CheckCircle size={48} className="text-emerald-600" />
+          </div>
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Registration Successful!</h2>
+          <p className="text-gray-500 text-sm">
+            {role === 'petani'
+              ? 'Your farmer account is being verified. Our team will contact you within 1–2 business days.'
+              : 'Welcome to AgriConnect! Redirecting to login page...'}
           </p>
         </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg bg-white shadow-xl border border-gray-200 p-8 md:p-10 rounded">
+        <div className="mb-8">
+          <Link to="/" className="text-xl font-extrabold text-emerald-800 tracking-tight">AgriConnect.</Link>
+          <h1 className="text-2xl font-extrabold text-gray-900 mt-4">Create New Account</h1>
+          <p className="text-gray-500 text-sm mt-1">Join us and support local Indonesian farmers.</p>
+        </div>
+
+        {/* Role Selector */}
+        <div className="flex gap-3 mb-6">
+          <button
+            onClick={() => { setRole('pembeli'); setStep(1); }}
+            className={`flex-1 flex flex-col items-center gap-2 py-4 border-2 transition-all rounded ${role === 'pembeli' ? 'border-emerald-700 bg-emerald-50' : 'border-gray-200 hover:border-gray-300'
+              }`}
+          >
+            <User size={24} className={role === 'pembeli' ? 'text-emerald-800' : 'text-gray-400'} />
+            <span className={`text-sm font-bold ${role === 'pembeli' ? 'text-emerald-800' : 'text-gray-500'}`}>Buyer</span>
+          </button>
+          <button
+            onClick={() => { setRole('petani'); setStep(1); }}
+            className={`flex-1 flex flex-col items-center gap-2 py-4 border-2 transition-all rounded ${role === 'petani' ? 'border-emerald-700 bg-emerald-50' : 'border-gray-200 hover:border-gray-300'
+              }`}
+          >
+            <Sprout size={24} className={role === 'petani' ? 'text-emerald-800' : 'text-gray-400'} />
+            <span className={`text-sm font-bold ${role === 'petani' ? 'text-emerald-800' : 'text-gray-500'}`}>Farmer</span>
+          </button>
+        </div>
+
+        {/* Step indicator for Farmer */}
+        {role === 'petani' && (
+          <div className="flex items-center gap-2 mb-6">
+            <div className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${step >= 1 ? 'bg-emerald-700 text-white' : 'bg-gray-200 text-gray-500'}`}>1</div>
+            <div className={`flex-1 h-1 rounded ${step >= 2 ? 'bg-emerald-700' : 'bg-gray-200'}`} />
+            <div className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${step >= 2 ? 'bg-emerald-700 text-white' : 'bg-gray-200 text-gray-500'}`}>2</div>
+            <span className="text-xs text-gray-500 font-semibold ml-2">{step === 1 ? 'Personal Info' : 'Land Verification'}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Step 1 — Common fields */}
+          {step === 1 && (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1.5">First Name</label>
+                  <input type="text" placeholder="John" className="w-full" required />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1.5">Last Name</label>
+                  <input type="text" placeholder="Doe" className="w-full" required />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Email</label>
+                <input type="email" placeholder="name@email.com" className="w-full" required />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Phone Number</label>
+                <input type="tel" placeholder="+62 812-xxxx-xxxx" className="w-full" required />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
+                <div className="relative">
+                  <input type={showPass ? 'text' : 'password'} placeholder="Min. 8 characters" className="w-full pr-12" required />
+                  <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Step 2 — Farmer verification */}
+          {step === 2 && role === 'petani' && (
+            <>
+              <div className="bg-amber-50 border border-amber-200 p-4 mb-2 rounded">
+                <p className="text-xs font-bold text-amber-800 flex items-center gap-2">
+                  <FileText size={14} /> Verification required to become an AgriConnect Farmer Partner
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Farm / Store Name</label>
+                <input type="text" placeholder='Example: "Sugeng Garden"' className="w-full" required />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Land Location</label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                  <input type="text" placeholder="Village/District, City, Province" className="w-full pl-10" required />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Upload Identity Card (KTP)</label>
+                <div className="border-2 border-dashed border-gray-300 p-6 text-center hover:border-emerald-700 transition-colors cursor-pointer rounded">
+                  <FileText size={28} className="text-gray-400 mx-auto mb-2" />
+                  <p className="text-sm text-gray-500">Click to upload KTP photo</p>
+                  <p className="text-xs text-gray-400 mt-1">JPG, PNG — Max. 5MB</p>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1.5">Main Commodity</label>
+                <select className="w-full" required>
+                  <option value="">Select main commodity...</option>
+                  <option>Vegetables</option>
+                  <option>Fruits</option>
+                  <option>Grains / Cereals</option>
+                  <option>Spices</option>
+                  <option>Mixed</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          <button
+            type="submit"
+            className="w-full flex items-center justify-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 transition-all shadow-md mt-2 rounded"
+            style={{ minHeight: '44px' }}
+          >
+            {role === 'petani' && step === 1 ? 'Continue to Land Verification' : 'Register Now'}
+            <ArrowRight size={16} />
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-emerald-700 font-bold hover:underline">
+            Log in here
+          </Link>
+        </p>
       </div>
     </div>
   );

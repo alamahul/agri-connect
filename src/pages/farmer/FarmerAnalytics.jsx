@@ -1,46 +1,46 @@
 import { useState } from 'react';
 import {
-  BarChart3, ArrowUpRight, DollarSign, ShoppingCart,
+  DollarSign, ShoppingCart,
   TrendingUp, Award, ChevronUp, ChevronDown
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line
 } from 'recharts';
-import { salesByProduct, revenueMonthly } from '../data/dummyData';
+import { salesByProduct, revenueMonthly } from '../../data/dummyData';
 
 const summaryStats = [
   {
-    label: 'Total Pendapatan',
-    value: 'Rp 52,3 Jt',
-    sub: 'Bulan Mei 2026',
+    label: 'Total Revenue',
+    value: 'Rp 52.3 M',
+    sub: 'May 2026',
     trend: '+14.2%',
     up: true,
     icon: DollarSign,
     color: 'amber',
   },
   {
-    label: 'Produk Terlaris',
+    label: 'Best Seller',
     value: 'Padi IR64',
-    sub: '5.200 kg terjual',
+    sub: '5,200 kg sold',
     trend: '+8.5%',
     up: true,
     icon: Award,
     color: 'emerald',
   },
   {
-    label: 'Konversi Pesanan',
+    label: 'Order Conversion',
     value: '78%',
-    sub: 'dari total lead',
+    sub: 'from total leads',
     trend: '+3.1%',
     up: true,
     icon: ShoppingCart,
     color: 'blue',
   },
   {
-    label: 'Total Produk Terjual',
-    value: '10.220 kg',
-    sub: 'Bulan Mei 2026',
+    label: 'Total Products Sold',
+    value: '10,220 kg',
+    sub: 'May 2026',
     trend: '-2.3%',
     up: false,
     icon: TrendingUp,
@@ -63,7 +63,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         {payload.map((p, i) => (
           <p key={i} style={{ color: p.color }} className="mt-0.5 font-bold">
             {p.name === 'pendapatan'
-              ? `Rp ${(p.value / 1000000).toFixed(1)} Jt`
+              ? `Rp ${(p.value / 1000000).toFixed(1)} M`
               : p.value}
           </p>
         ))}
@@ -75,15 +75,15 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const productColors = ['bg-emerald-500', 'bg-blue-500', 'bg-red-400', 'bg-amber-400', 'bg-violet-500'];
 
-const AnalisisPenjualan = () => {
-  const [chartMode, setChartMode] = useState('pendapatan');
+const FarmerAnalytics = () => {
+  const [chartMode, setChartMode] = useState('revenue');
 
   return (
     <div className="space-y-4">
       {/* Header */}
       <div>
-        <h2 className="text-base font-bold text-slate-800">Analisis Penjualan</h2>
-        <p className="text-xs text-slate-500 mt-0.5">Laporan mendalam kinerja penjualan produk Anda</p>
+        <h2 className="text-base font-bold text-slate-800">Sales Analytics</h2>
+        <p className="text-xs text-slate-500 mt-0.5">Deep insights report on your product sales performance</p>
       </div>
 
       {/* Summary Stats */}
@@ -115,31 +115,31 @@ const AnalisisPenjualan = () => {
         <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm p-4 lg:col-span-3">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-sm font-semibold text-slate-800">Tren Bulanan</h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">Pendapatan & jumlah pesanan per bulan</p>
+              <h3 className="text-sm font-semibold text-slate-800">Monthly Trends</h3>
+              <p className="text-[11px] text-slate-400 mt-0.5">Revenue & order count per month</p>
             </div>
             <div className="flex gap-1 bg-slate-100 p-0.5 rounded-[6px]">
               <button
-                onClick={() => setChartMode('pendapatan')}
-                className={`px-2.5 py-1 text-[11px] font-semibold rounded-[6px] transition-all ${chartMode === 'pendapatan' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                onClick={() => setChartMode('revenue')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded-[6px] transition-all ${chartMode === 'revenue' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Pendapatan
+                Revenue
               </button>
               <button
-                onClick={() => setChartMode('pesanan')}
-                className={`px-2.5 py-1 text-[11px] font-semibold rounded-[6px] transition-all ${chartMode === 'pesanan' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                onClick={() => setChartMode('orders')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded-[6px] transition-all ${chartMode === 'orders' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                Pesanan
+                Orders
               </button>
             </div>
           </div>
           <div className="h-44">
             <ResponsiveContainer width="100%" height="100%">
-              {chartMode === 'pendapatan' ? (
+              {chartMode === 'revenue' ? (
                 <BarChart data={revenueMonthly} barSize={28} margin={{ top: 2, right: 2, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="bulan" tick={{ fontSize: 10, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1000000).toFixed(0)}Jt`} />
+                  <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1000000).toFixed(0)}M`} />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f0fdf4' }} />
                   <Bar dataKey="pendapatan" fill="#10b981" radius={[4, 4, 0, 0]} name="pendapatan" />
                 </BarChart>
@@ -158,8 +158,8 @@ const AnalisisPenjualan = () => {
 
         {/* Sales by Product */}
         <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm p-4 lg:col-span-2">
-          <h3 className="text-sm font-semibold text-slate-800 mb-0.5">Penjualan per Produk</h3>
-          <p className="text-[11px] text-slate-400 mb-4">Proporsi volume penjualan</p>
+          <h3 className="text-sm font-semibold text-slate-800 mb-0.5">Sales by Product</h3>
+          <p className="text-[11px] text-slate-400 mb-4">Proportion of sales volume</p>
           <div className="space-y-3">
             {salesByProduct.map((p, i) => (
               <div key={p.nama}>
@@ -175,7 +175,7 @@ const AnalisisPenjualan = () => {
                 </div>
                 <div className="flex justify-between mt-0.5">
                   <span className="text-[10px] text-slate-400">{p.terjual.toLocaleString('id-ID')} kg</span>
-                  <span className="text-[10px] text-slate-400">Rp {(p.pendapatan / 1000000).toFixed(1)} Jt</span>
+                  <span className="text-[10px] text-slate-400">Rp {(p.pendapatan / 1000000).toFixed(1)} M</span>
                 </div>
               </div>
             ))}
@@ -186,4 +186,4 @@ const AnalisisPenjualan = () => {
   );
 };
 
-export default AnalisisPenjualan;
+export default FarmerAnalytics;

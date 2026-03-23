@@ -1,18 +1,18 @@
-import StatCard from '../components/StatCard';
-import SalesBarChart from '../components/BarChart';
-import RecentOrdersTable from '../components/RecentOrdersTable';
-import LowStockList from '../components/LowStockList';
-import ActivityTimeline from '../components/ActivityTimeline';
-import { statData } from '../data/dummyData';
+import StatCard from '../../components/StatCard';
+import SalesBarChart from '../../components/BarChart';
+import RecentOrdersTable from '../../components/RecentOrdersTable';
+import LowStockList from '../../components/LowStockList';
+import ActivityTimeline from '../../components/ActivityTimeline';
+import { statData } from '../../data/dummyData';
 
-const DashboardPetani = () => {
+const FarmerDashboard = () => {
   return (
     <div className="space-y-4">
       {/* Page Title */}
       <div>
-        <h2 className="text-base font-bold text-slate-800">Dashboard Petani</h2>
+        <h2 className="text-base font-bold text-slate-800">Farmer Dashboard</h2>
         <p className="text-xs text-slate-500 mt-0.5">
-          Selamat datang kembali, Bapak Petani! Berikut ringkasan hari ini.
+          Welcome back! Here's a summary of today's activities.
         </p>
       </div>
 
@@ -23,7 +23,7 @@ const DashboardPetani = () => {
         ))}
       </div>
 
-      {/* Main: Chart (kiri 8 col) + Tabel (kanan 4 col) */}
+      {/* Main: Chart (8 col) + Table (4 col) */}
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-12 lg:col-span-8">
           <SalesBarChart />
@@ -33,7 +33,7 @@ const DashboardPetani = () => {
         </div>
       </div>
 
-      {/* Bottom: Stok + Aktivitas */}
+      {/* Bottom: Stock + Activity */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <LowStockList />
         <ActivityTimeline />
@@ -42,4 +42,4 @@ const DashboardPetani = () => {
   );
 };
 
-export default DashboardPetani;
+export default FarmerDashboard;

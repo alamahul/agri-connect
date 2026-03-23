@@ -6,54 +6,54 @@ import {
 
 const faqs = [
   {
-    q: 'Bagaimana cara menambahkan produk baru ke gudang?',
-    a: 'Buka menu "Gudang Produk" di sidebar, kemudian klik tombol "Tambah Produk" di pojok kanan atas. Isi formulir detail produk termasuk nama, stok, harga, dan kategori, lalu simpan.',
+    q: 'How do I add a new product to the warehouse?',
+    a: 'Open the "Product Warehouse" menu in the sidebar, then click the "Add Product" button in the upper right corner. Fill in the product details including name, stock, price, and category, and save.',
   },
   {
-    q: 'Bagaimana cara memperbarui status pesanan?',
-    a: 'Buka halaman "Manajemen Pesanan", temukan pesanan yang ingin diperbarui, klik tombol "Detail" di baris pesanan tersebut. Di halaman detail, Anda dapat mengubah status menjadi Diproses, Dikirim, atau Selesai.',
+    q: 'How do I update order status?',
+    a: 'Open the "Order Management" page, find the order you want to update, and click the "Detail" button on that order row. In the detail page, you can change the status to Processing, Shipped, or Completed.',
   },
   {
-    q: 'Apa arti indikator "Stok Kritis"?',
-    a: 'Stok Kritis berarti jumlah stok produk telah berada di bawah 10% dari kapasitas maksimum yang ditetapkan. Segera lakukan restok untuk menghindari kehabisan produk saat ada pesanan masuk.',
+    q: 'What does the "Critical Stock" indicator mean?',
+    a: 'Critical Stock means the amount of product stock is below 10% of the maximum capacity set. Restock immediately to avoid running out of product when orders come in.',
   },
   {
-    q: 'Bagaimana cara membaca grafik Analisis Penjualan?',
-    a: 'Halaman Analisis Penjualan menampilkan tren pendapatan bulanan dalam bentuk grafik bar, dan tren jumlah pesanan dalam grafik garis. Bagian bawah menampilkan proporsi penjualan per jenis produk dalam bentuk bar indikator.',
+    q: 'How do I read the Sales Analytics charts?',
+    a: 'The Sales Analytics page shows monthly revenue trends in a bar chart, and order volume trends in a line chart. The bottom section shows the proportion of sales per product type in indicator bars.',
   },
   {
-    q: 'Apakah data saya aman di AgriConnect?',
-    a: 'Ya, seluruh data Anda dienkripsi menggunakan standar industri (AES-256). Server kami berlokasi di Indonesia dan telah memenuhi standar keamanan ISO 27001. Kami tidak membagikan data Anda kepada pihak ketiga tanpa izin.',
+    q: 'Is my data safe on AgriConnect?',
+    a: 'Yes, all your data is encrypted using industry standards (AES-256). Our servers are located in Indonesia and satisfy ISO 27001 security standards. We do not share your data with third parties without permission.',
   },
   {
-    q: 'Bagaimana cara menghubungi tim dukungan?',
-    a: 'Anda dapat menghubungi tim kami melalui email support@agriconnect.id atau melalui WhatsApp di +62 800-AGRI-CONNECT (Senin–Jumat, 08.00–17.00 WIB). Biasanya kami merespons dalam waktu 1×24 jam.',
+    q: 'How do I contact the support team?',
+    a: 'You can contact our team via email at support@agriconnect.id or via WhatsApp at +62 800-AGRI-CONNECT (Monday–Friday, 08:00–17:00 WIB). We usually respond within 1×24 hours.',
   },
 ];
 
 const guides = [
-  { icon: '🌾', title: 'Memulai dengan AgriConnect', desc: 'Panduan lengkap setup awal akun dan konfigurasi profil toko Anda.' },
-  { icon: '📦', title: 'Mengelola Inventaris Gudang', desc: 'Cara efektif mengatur stok, kategori produk, dan peringatan stok menipis.' },
-  { icon: '🛒', title: 'Memproses Pesanan Masuk', desc: 'Alur kerja dari pesanan diterima hingga pengiriman ke pembeli.' },
-  { icon: '📊', title: 'Memahami Laporan Penjualan', desc: 'Cara mem-baca grafik tren dan menggunakan data untuk keputusan bisnis.' },
+  { icon: '🌾', title: 'Getting Started with AgriConnect', desc: 'Complete guide for initial account setup and store profile configuration.' },
+  { icon: '📦', title: 'Managing Warehouse Inventory', desc: 'Effective ways to manage stocks, product categories, and low stock alerts.' },
+  { icon: '🛒', title: 'Processing Incoming Orders', desc: 'Workflow from order received to shipping to the buyer.' },
+  { icon: '📊', title: 'Understanding Sales Reports', desc: 'How to read trend charts and use data for business decisions.' },
 ];
 
-const BantuanPage = () => {
+const FarmerHelp = () => {
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
     <div className="space-y-5 max-w-3xl">
       {/* Header */}
       <div>
-        <h2 className="text-base font-bold text-slate-800">Bantuan & Panduan</h2>
-        <p className="text-xs text-slate-500 mt-0.5">Temukan jawaban dan pelajari cara menggunakan AgriConnect</p>
+        <h2 className="text-base font-bold text-slate-800">Help & Guides</h2>
+        <p className="text-xs text-slate-500 mt-0.5">Find answers and learn how to use AgriConnect</p>
       </div>
 
       {/* Quick Guide */}
       <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm p-5">
         <div className="flex items-center gap-2 mb-4">
           <BookOpen size={15} className="text-emerald-600" />
-          <h3 className="text-sm font-semibold text-slate-800">Panduan Cepat</h3>
+          <h3 className="text-sm font-semibold text-slate-800">Quick Guide</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {guides.map((g) => (
@@ -75,7 +75,7 @@ const BantuanPage = () => {
       <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm p-5">
         <div className="flex items-center gap-2 mb-4">
           <HelpCircle size={15} className="text-blue-600" />
-          <h3 className="text-sm font-semibold text-slate-800">Pertanyaan yang Sering Diajukan</h3>
+          <h3 className="text-sm font-semibold text-slate-800">Frequently Asked Questions</h3>
         </div>
         <div className="space-y-2">
           {faqs.map((faq, i) => (
@@ -107,9 +107,9 @@ const BantuanPage = () => {
       <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/60 rounded-[6px] border border-emerald-200 p-5">
         <div className="flex items-center gap-2 mb-3">
           <MessageSquare size={15} className="text-emerald-700" />
-          <h3 className="text-sm font-semibold text-emerald-800">Masih butuh bantuan?</h3>
+          <h3 className="text-sm font-semibold text-emerald-800">Still need help?</h3>
         </div>
-        <p className="text-xs text-emerald-700 mb-4">Tim dukungan kami siap membantu Anda setiap hari kerja.</p>
+        <p className="text-xs text-emerald-700 mb-4">Our support team is ready to help you every working day.</p>
         <div className="flex flex-col sm:flex-row gap-3">
           <a
             href="mailto:support@agriconnect.id"
@@ -131,4 +131,4 @@ const BantuanPage = () => {
   );
 };
 
-export default BantuanPage;
+export default FarmerHelp;
