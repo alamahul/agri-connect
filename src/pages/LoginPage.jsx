@@ -1,131 +1,112 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Sprout, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, Sprout, ShieldCheck, ArrowRight } from 'lucide-react';
 
-const LoginPage = ({ role }) => {
-  const validRole = role === 'pembeli' || role === 'admin' ? role : 'petani'; // Default/Fallback to petani
-  const location = useLocation();
-
-  const [email, setEmail] = useState(location.state?.registeredEmail || '');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
+const LoginPage = () => {
+  const [showPass, setShowPass] = useState(false);
+  const [role, setRole] = useState('pembeli');
   const navigate = useNavigate();
 
-  const from = location.state?.from?.pathname || null;
-
-  const handleSubmit = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError('Harap isi semua kolom.');
-      return;
-    }
-
-    try {
-      setError('');
-      setIsSubmitting(true);
-      const user = await login(email, password);
-
-      if (user.role !== validRole) {
-        throw new Error(`Akun Anda terdaftar sebagai ${user.role}, bukan ${validRole}.`);
-      }
-
-      // Redirect to the originally requested page, or their role dashboard
-      if (from) {
-        navigate(from, { replace: true });
-      } else {
-        if (validRole === 'petani') navigate('/petani/dashboard', { replace: true });
-        else if (validRole === 'pembeli') navigate('/pembeli/dashboard', { replace: true });
-        else if (validRole === 'admin') navigate('/admin/dashboard', { replace: true });
-      }
-    } catch (err) {
-      if (err.message && err.message.includes('terdaftar sebagai')) {
-         setError(err.message);
-      } else {
-         setError('Email atau password salah.');
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    if (role === 'petani') navigate('/petani/dashboard');
+    else if (role === 'admin') navigate('/admin/dashboard');
+    else navigate('/pelanggan/dashboard');
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-0 left-0 -translate-y-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="w-full max-w-md z-10">
-        <div className="flex flex-col items-center mb-8">
-          <Link to="/" className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 mb-4 hover:scale-105 transition-transform">
-            <Sprout size={24} className="text-white" />
-          </Link>
-          <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">Login {validRole === 'pembeli' ? 'Pembeli' : validRole === 'admin' ? 'Admin' : 'Petani'}</h1>
-          <p className="text-slate-400 text-sm text-center">Masuk ke akun {validRole} Anda untuk melanjutkan.</p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl grid md:grid-cols-2 bg-white shadow-xl border border-gray-200 overflow-hidden rounded">
+        {/* Left Panel */}
+        <div className="hidden md:flex flex-col justify-between bg-emerald-900 p-10 text-white">
+          <div>
+            <span className="text-2xl font-extrabold tracking-tight">AgriConnect.</span>
+            <p className="text-emerald-200 text-xs mt-1 uppercase tracking-widest font-semibold">TECHSOFT 2026</p>
+          </div>
+          <div>
+            <h2 className="text-3xl font-extrabold leading-tight mb-4">
+              Connect Farmers<br />Directly to<br />Your Dining Table
+            </h2>
+            <p className="text-emerald-200 text-sm leading-relaxed">
+              Agribusiness platform with a secure Escrow system — cutting out middleman chains, ensuring farmer prosperity.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 bg-white/10 p-4 rounded">
+            <ShieldCheck size={32} className="text-amber-300 flex-shrink-0" />
+            <div>
+              <p className="font-bold text-sm">Secure Escrow System</p>
+              <p className="text-emerald-200 text-xs">Your funds are held until the harvest arrives safely</p>
+            </div>
+          </div>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
-          {error && (
-            <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg">
-              {error}
-            </div>
-          )}
+        {/* Right Panel — Form */}
+        <div className="p-8 md:p-10 flex flex-col justify-center">
+          <div className="mb-8">
+            <h1 className="text-2xl font-extrabold text-gray-900">Welcome Back</h1>
+            <p className="text-gray-500 text-sm mt-1">Log in to continue to your dashboard.</p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300 ml-1">Email</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <Mail size={18} />
-                </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all sm:text-sm"
-                  placeholder=""
-                />
-              </div>
-            </div>
+          {/* Role Selector */}
+          <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded">
+            {['pembeli', 'petani', 'admin'].map((r) => (
+              <button
+                key={r}
+                onClick={() => setRole(r)}
+                className={`flex-1 py-2 text-sm font-bold capitalize transition-all rounded ${role === r ? 'bg-white text-emerald-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+              >
+                {r === 'pembeli' ? 'Buyer' : r === 'petani' ? 'Farmer' : 'Admin'}
+              </button>
+            ))}
+          </div>
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-300 ml-1">Password</label>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1.5">Email</label>
+              <input
+                type="email"
+                placeholder="name@email.com"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <Lock size={18} />
-                </div>
                 <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-800/50 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all sm:text-sm"
-                  placeholder=""
+                  type={showPass ? 'text' : 'password'}
+                  placeholder="Enter password"
+                  style={{ paddingRight: '3rem' }}
+                  required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
-              <div className="flex justify-end pt-1">
-                <a href="#" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Lupa Password?</a>
+              <div className="text-right mt-1">
+                <a href="#" className="text-xs text-emerald-700 font-semibold hover:underline">Forgot password?</a>
               </div>
             </div>
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white text-sm font-semibold px-4 py-3 rounded-xl transition-colors shadow-lg shadow-emerald-500/25 mt-2"
+              className="w-full flex items-center justify-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 transition-all shadow-md mt-2 rounded"
+              style={{ minHeight: '44px' }}
             >
-              {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : 'Masuk'}
+              Log In Now <ArrowRight size={18} />
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
-            Belum punya akun?{' '}
-            <Link to={`/register/${validRole === 'admin' ? 'petani' : validRole}`} className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-              Daftar sekarang
+          <p className="text-center text-sm text-gray-500 mt-6">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-emerald-700 font-bold hover:underline">
+              Register here
             </Link>
           </p>
-
-
         </div>
       </div>
     </div>

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import {
-  Warehouse, Package, TrendingUp, AlertTriangle, Plus,
-  Search, Filter, Eye, Edit2, Trash2
+  Package, TrendingUp, AlertTriangle, Plus,
+  Search, Eye, Edit2, Trash2
 } from 'lucide-react';
-import { inventoryProducts } from '../data/dummyData';
+import { inventoryProducts } from '../../data/dummyData';
 
 const stats = [
-  { label: 'Total Produk', value: '48', icon: Package, color: 'bg-emerald-600' },
-  { label: 'Kapasitas Terpakai', value: '73%', icon: TrendingUp, color: 'bg-blue-600' },
-  { label: 'Stok Kritis', value: '2', icon: AlertTriangle, color: 'bg-red-500' },
+  { label: 'Total Products', value: '48', icon: Package, color: 'bg-emerald-600' },
+  { label: 'Used Capacity', value: '73%', icon: TrendingUp, color: 'bg-blue-600' },
+  { label: 'Critical Stock', value: '2', icon: AlertTriangle, color: 'bg-red-500' },
 ];
 
 const statusBadge = (status) => {
@@ -18,14 +18,14 @@ const statusBadge = (status) => {
   return 'bg-slate-100 text-slate-600';
 };
 
-const tabs = ['Semua', 'In Stock', 'Low Stock', 'Kritis'];
+const tabs = ['All', 'In Stock', 'Low Stock', 'Kritis'];
 
-const GudangProduk = () => {
-  const [activeTab, setActiveTab] = useState('Semua');
+const FarmerInventory = () => {
+  const [activeTab, setActiveTab] = useState('All');
   const [search, setSearch] = useState('');
 
   const filtered = inventoryProducts.filter((p) => {
-    const matchTab = activeTab === 'Semua' || p.status === activeTab;
+    const matchTab = activeTab === 'All' || p.status === activeTab;
     const matchSearch = p.nama.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
@@ -35,12 +35,12 @@ const GudangProduk = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-bold text-slate-800">Gudang Produk</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Manajemen stok dan inventaris produk pertanian</p>
+          <h2 className="text-base font-bold text-slate-800">Product Warehouse</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Manage agricultural inventory and stocks</p>
         </div>
         <button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-[6px] transition-colors">
           <Plus size={14} />
-          Tambah Produk
+          Add Product
         </button>
       </div>
 
@@ -63,7 +63,6 @@ const GudangProduk = () => {
       <div className="bg-white rounded-[6px] border border-slate-100 shadow-sm">
         {/* Toolbar */}
         <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-          {/* Tabs */}
           <div className="flex gap-1 bg-slate-100 p-0.5 rounded-[6px] w-fit">
             {tabs.map((t) => (
               <button
@@ -75,14 +74,13 @@ const GudangProduk = () => {
               </button>
             ))}
           </div>
-          {/* Search */}
           <div className="relative max-w-xs">
             <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari produk..."
+              placeholder="Search product..."
               className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-[6px] text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             />
           </div>
@@ -93,20 +91,20 @@ const GudangProduk = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
-                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">ID Produk</th>
-                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Nama Produk</th>
-                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Kategori</th>
-                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Stok</th>
-                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Harga / Satuan</th>
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Product ID</th>
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Product Name</th>
+                <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Category</th>
+                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Stock</th>
+                <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Price / Unit</th>
                 <th className="text-center px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="text-center px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
+                <th className="text-center px-4 py-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {filtered.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="text-center py-10 text-sm text-slate-400">
-                    Tidak ada produk ditemukan
+                    No products found
                   </td>
                 </tr>
               ) : (
@@ -156,11 +154,11 @@ const GudangProduk = () => {
 
         {/* Footer */}
         <div className="px-4 py-3 border-t border-slate-100 flex items-center justify-between">
-          <p className="text-xs text-slate-400">Menampilkan {filtered.length} dari {inventoryProducts.length} produk</p>
+          <p className="text-xs text-slate-400">Showing {filtered.length} out of {inventoryProducts.length} products</p>
           <div className="flex gap-1">
-            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Sebelumnya</button>
+            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Previous</button>
             <button className="px-2.5 py-1 text-xs border border-emerald-500 bg-emerald-50 rounded-[6px] text-emerald-700 font-semibold">1</button>
-            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Selanjutnya</button>
+            <button className="px-2.5 py-1 text-xs border border-slate-200 rounded-[6px] text-slate-500 hover:bg-slate-50 transition-colors">Next</button>
           </div>
         </div>
       </div>
@@ -168,4 +166,4 @@ const GudangProduk = () => {
   );
 };
 
-export default GudangProduk;
+export default FarmerInventory;

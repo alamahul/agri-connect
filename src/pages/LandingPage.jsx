@@ -3,10 +3,10 @@ import { Sprout, ArrowRight, BarChart3, Package, ShoppingBag, ShieldCheck, LogIn
 import { useAuth } from '../contexts/AuthContext';
 
 const features = [
-  { icon: BarChart3, title: 'Analisis Penjualan', desc: 'Pantau tren dan kinerja penjualan secara real-time' },
-  { icon: Package, title: 'Gudang Digital', desc: 'Kelola inventaris produk pertanian dengan mudah' },
-  { icon: ShoppingBag, title: 'Manajemen Pesanan', desc: 'Lacak semua pesanan masuk dalam satu dashboard' },
-  { icon: ShieldCheck, title: 'Aman & Terpercaya', desc: 'Data Anda terlindungi dengan enkripsi tingkat lanjut' },
+  { icon: BarChart3, title: 'Sales Analytics', desc: 'Monitor sales trends and performance in real-time' },
+  { icon: Package, title: 'Digital Warehouse', desc: 'Manage agricultural product inventory with ease' },
+  { icon: ShoppingBag, title: 'Order Management', desc: 'Track all incoming orders in one dashboard' },
+  { icon: ShieldCheck, title: 'Safe & Trusted', desc: 'Your data is protected with advanced encryption' },
 ];
 
 const LandingPage = () => {
@@ -16,10 +16,10 @@ const LandingPage = () => {
   const handleDashboardRedirect = () => {
     if (!user) {
       navigate('/login');
-    } else if (user.role === 'farmer') {
+    } else if (user.role === 'petani') {
       navigate('/petani/dashboard');
-    } else if (user.role === 'buyer') {
-      navigate('/pembeli/dashboard');
+    } else if (user.role === 'pembeli') {
+      navigate('/pelanggan/dashboard');
     } else if (user.role === 'admin') {
       navigate('/admin/dashboard');
     }
@@ -39,18 +39,18 @@ const LandingPage = () => {
           {!user ? (
             <>
               <Link
-                to="/login/petani"
+                to="/login"
                 className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold px-2 sm:px-4 py-2 transition-colors"
               >
                 <LogIn size={16} />
-                <span className="hidden sm:inline">Login Petani</span>
+                <span className="hidden sm:inline">Log In</span>
               </Link>
               <Link
-                to="/login/pembeli"
+                to="/register"
                 className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold px-4 py-2 rounded-[6px] transition-colors"
               >
-                <LogIn size={16} />
-                <span>Login Pembeli</span>
+                <UserPlus size={16} />
+                <span>Register</span>
               </Link>
             </>
           ) : (
@@ -58,7 +58,7 @@ const LandingPage = () => {
               onClick={handleDashboardRedirect}
               className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold px-4 py-2 rounded-[6px] transition-colors"
             >
-              Ke Dashboard
+              Go to Dashboard
               <ArrowRight size={15} />
             </button>
           )}
@@ -69,31 +69,24 @@ const LandingPage = () => {
       <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-16">
         <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-4 py-1.5 rounded-[6px] mb-6">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-          Platform Manajemen Pertanian #1 Indonesia
+          #1 Agricultural Management Platform in Indonesia
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl mb-5">
-          Kelola Bisnis Pertanian{' '}
-          <span className="text-emerald-400">Lebih Cerdas</span>
+          Manage Agricultural Business{' '}
+          <span className="text-emerald-400">Smarter</span>
         </h1>
         <p className="text-slate-400 text-base sm:text-lg max-w-xl mb-10 leading-relaxed">
-          AgriConnect membantu petani Indonesia mengelola gudang, pesanan, dan analisis penjualan dalam satu platform yang terintegrasi.
+          AgriConnect helps Indonesian farmers manage warehouse, orders, and sales analytics in one integrated platform.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           {!user ? (
             <>
               <Link
-                to="/register/pembeli"
+                to="/register"
                 className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 py-3 rounded-[6px] transition-all hover:shadow-lg hover:shadow-emerald-500/25 text-sm"
               >
-                Gabung sebagai Pembeli
+                Join as AgriConnect Partner
                 <ArrowRight size={16} />
-              </Link>
-              <Link
-                to="/register/petani"
-                className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-8 py-3 rounded-[6px] transition-colors text-sm"
-              >
-                Gabung sebagai Petani
-                <Sprout size={16} />
               </Link>
             </>
           ) : (
@@ -101,7 +94,7 @@ const LandingPage = () => {
               onClick={handleDashboardRedirect}
               className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-8 py-3 rounded-[6px] transition-all hover:shadow-lg hover:shadow-emerald-500/25 text-sm"
             >
-              Lanjut ke Dashboard
+              Continue to Dashboard
               <ArrowRight size={16} />
             </button>
           )}
@@ -126,7 +119,7 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="text-center py-6 text-slate-500 text-xs">
-        © 2026 AgriConnect. Platform Petani Indonesia.
+        © 2026 AgriConnect. Indonesian Farmer Platform.
       </footer>
     </div>
   );
