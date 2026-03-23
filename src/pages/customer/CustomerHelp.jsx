@@ -73,7 +73,7 @@ const CustomerHelp = () => {
     <div className="space-y-12 pb-20 animate-in fade-in duration-500">
 
       {/* 1. Header & Smart Search (Hero Section) */}
-      <section className="text-center space-y-8 bg-gradient-to-b from-white to-gray-50/50 p-10 rounded-[3rem] border border-gray-100 shadow-sm">
+      <section className="text-center space-y-8 bg-gradient-to-b from-white to-gray-50/50 p-10 rounded-[6px] border border-gray-100 shadow-sm">
         <div className="space-y-2">
           <h1 className="text-4xl font-extrabold text-neutral-900 tracking-tight">Ada yang bisa kami bantu hari ini, <span className="text-amber-500 uppercase tracking-tighter">Siti Aminah</span>?</h1>
           <p className="text-gray-500 font-medium">Temukan solusi cepat untuk kenyamanan belanja hasil panen Anda.</p>
@@ -156,7 +156,7 @@ const CustomerHelp = () => {
           { icon: <Wallet size={32} />, title: "Kendala Pembayaran", desc: "Solusi gagal bayar atau refund DP.", color: "bg-amber-50 text-amber-600", border: "border-amber-100" },
           { icon: <UserCheck size={32} />, title: "Info Petani Mitra", desc: "Lihat transparansi proses kurasi petani.", color: "bg-green-50 text-green-600", border: "border-green-100" },
         ].map((card, i) => (
-          <div key={i} className={`group bg-white p-8 rounded-[2.5rem] border ${card.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer`}>
+          <div key={i} className={`group bg-white p-8 rounded-[6px] border ${card.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer`}>
             <div className={`w-16 h-16 ${card.color} rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:rotate-6 transition-transform`}>
               {card.icon}
             </div>
@@ -167,7 +167,7 @@ const CustomerHelp = () => {
       </section>
 
       {/* 5. Formulir Kontak Darurat (Ticketing) */}
-      <section className="max-w-3xl mx-auto bg-white rounded-[3rem] border border-gray-100 shadow-xl overflow-hidden">
+      <section className="max-w-3xl mx-auto bg-white rounded-[6px] border border-gray-100 shadow-xl overflow-hidden">
         {isSubmitted ? (
           <div className="p-20 text-center flex flex-col items-center animate-in zoom-in-95 duration-500">
             <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-green-100 animate-bounce">
