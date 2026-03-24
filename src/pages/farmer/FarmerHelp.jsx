@@ -74,7 +74,7 @@ const FarmerHelp = () => {
    const VIDEOS = [
       { id: 1, title: 'Cara Packing Tomat Agar Tidak Pecah', duration: '1:45', thumb: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
       { id: 2, title: 'Menentukan Harga Jual Bebas Tengkulak', duration: '2:30', thumb: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400' },
-      { id: 3, title: 'Penjelasan Sistem Panen Besok', duration: '3:15', thumb: 'https://images.unsplash.com/photo-1523348830342-d0187cf0c283?w=400' }
+      { id: 3, title: 'Penjelasan Sistem Panen Besok', duration: '3:15', thumb: 'https://plus.unsplash.com/premium_photo-1669122521521-ec56bb491405?q=80&w=400' }
    ];
 
    const handleVoiceSearch = () => {

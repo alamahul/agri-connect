@@ -114,7 +114,7 @@ export const CUSTOMER_ORDERS = [
     orderId: "INV-PRE-001",
     date: "22 Mar 2026",
     status: "Diproses Petani",
-    items: [{ name: "Brokoli Hijau", qty: 3, unit: "ikat", price: 12000, image: "https://images.unsplash.com/photo-1596040033229-a9821ebd05de?w=100" }],
+    items: [{ name: "Brokoli Hijau", qty: 3, unit: "ikat", price: 12000, image: "https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?q=80&w=100" }],
     totalAmount: 36000,
     farmer: "Cisarua Fresh",
     verified: true,

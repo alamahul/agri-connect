@@ -80,7 +80,7 @@ const FarmerDashboard = () => {
                onClick={handleSpeak}
                className={`
             group flex items-center gap-4 px-8 py-4 rounded-[6px] font-black uppercase tracking-widest text-sm transition-all shadow-2xl
-            ${isSpeaking ? 'bg-amber-400 text-neutral-900 scale-105' : 'bg-neutral-900 text-white hover:bg-black'}
+            ${isSpeaking ? 'bg-amber-400 text-neutral-800 scale-105' : 'bg-neutral-800 text-white hover:bg-black'}
           `}
             >
                <div className={`p-2 rounded-[6px] transition-colors ${isSpeaking ? 'bg-white/50' : 'bg-white/10'}`}>
