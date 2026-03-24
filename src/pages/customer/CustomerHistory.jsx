@@ -134,7 +134,7 @@ const CustomerHistory = () => {
          <div className="grid grid-cols-1 gap-4">
             {filteredHistory.length > 0 ? (
                filteredHistory.map((item) => (
-                  <div key={item.id} className="bg-white rounded-[2rem] border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                  <div key={item.id} className="bg-white rounded-[6px] border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                      <div className="flex flex-col lg:flex-row gap-6">
                         {/* Left Info */}
                         <div className="flex-1 flex gap-5">

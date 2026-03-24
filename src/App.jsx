@@ -35,6 +35,7 @@ import AdminArticles from './pages/admin/AdminArticles';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminHelp from './pages/admin/AdminHelp';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminData from './pages/admin/AdminData';
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="help" element={<AdminHelp />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="data" element={<AdminData />} />
         </Route>
       </Routes>
     </BrowserRouter>

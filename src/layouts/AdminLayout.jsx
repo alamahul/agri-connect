@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Users, Package, FileText, BarChart3, HelpCircle, Settings, Menu, Shield, ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Package, FileText, BarChart3, HelpCircle, Settings, Menu, Shield, ChevronLeft, ChevronRight, LogOut, Database } from 'lucide-react';
 import logoOnly from '../assets/logo-only.png';
 
 const AdminLayout = () => {
@@ -10,6 +10,7 @@ const AdminLayout = () => {
 
   const menuItems = [
     { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <Database size={20} />, label: 'Data Master', path: '/admin/data' },
     { icon: <Users size={20} />, label: 'Manajemen User', path: '/admin/users' },
     { icon: <Package size={20} />, label: 'Produk & Pesanan', path: '/admin/products' },
     { icon: <FileText size={20} />, label: 'Artikel', path: '/admin/articles' },
