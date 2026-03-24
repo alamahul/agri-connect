@@ -1,3 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ─── AgriConnect Global Design Tokens ─────────────────────────────────── */
+
+@layer base {
+
+  /* 1. Global font — Manrope */
+  body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 2. All text inputs / textareas / selects — standardised to SKPL spec   */
+  /*    font-size 16px  |  padding-y 8px  |  padding-x 16px  |  6px radius  */
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-size: 1rem;
+    /* 16 px */
+    padding: 0.6rem 1rem;
+    /* 10px  16px */
+    border-radius: 6px;
+    border: 1.5px solid #e5e7eb;
+    /* gray-200 */
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    background-color: #fff;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #15803d;
+    /* agri-700 */
+    box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.1);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ca3af;
+    /* gray-400 */
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+
+  .slide-in-from-bottom-10 {
+    animation-name: slideInBottom;
+  }
+
+  .slide-in-from-right {
+    animation-name: slideInRight;
+  }
+
+  .zoom-in {
+    animation-name: zoomIn;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes zoomIn95 {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes slideInBottom {
+    from { opacity: 0; transform: translateY(2rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* 3. Buttons — min 44×44 px for touch targets */
+  button {
+    font-family: 'Manrope', system-ui, sans-serif;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 700;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ─── AgriConnect Component Helpers (non-utility classes) ────────────────── */
+
+@layer components {
+
+  /* Primary green button — use class="btn-primary" for quick use */
+  .btn-primary {
+    @apply bg-agri-600 hover:bg-agri-700 text-white font-bold px-5 py-2.5 text-sm transition-all;
+    border-radius: 6px;
+    min-height: 44px;
+  }
+
+  /* Secondary / ghost button */
+  .btn-secondary {
+    @apply bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold px-5 py-2.5 text-sm transition-all;
+    border-radius: 6px;
+    min-height: 44px;
+  }
+}
