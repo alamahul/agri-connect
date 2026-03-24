@@ -46,7 +46,7 @@ const HISTORY_DATA = [
       farmer: "Sari Organik Ciwidey",
       farm: "Ciwidey, Kab. Bandung",
       items: [
-         { name: "Selada Hidroponik", qty: 3, unit: "Pack", price: 8000, image: "https://images.unsplash.com/photo-1622205313162-be1d5756a43f?w=100" }
+         { name: "Selada Hidroponik", qty: 3, unit: "Pack", price: 8000, image: "https://images.unsplash.com/photo-1515356956468-873dd257f911?q=80&w=500" }
       ],
       productTotal: 24000,
       logistics: 12000,

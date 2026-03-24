@@ -64,7 +64,7 @@ const FarmerInventory = () => {
          booked: 30,
          unit: "Kg",
          category: "Sayuran",
-         image: "https://images.unsplash.com/photo-1622205313162-be1d5756a43f?w=400",
+         image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400",
          status: true,
          type: "preorder",
          harvestDate: "25 Mar 2026"
@@ -247,7 +247,7 @@ const FarmerInventory = () => {
                               onClick={() => handleObral(product)}
                               className="flex-1 py-3 bg-amber-400 hover:bg-amber-500 text-neutral-900 rounded-[6px] transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-100"
                            >
-                              <Zap size={12} /> Obral Cepat
+                              <Zap size={12} /> Obral
                            </button>
                         ) : (
                            <button className="p-3 bg-gray-50 hover:bg-red-50 hover:text-red-500 rounded-[6px] transition-all text-gray-400">

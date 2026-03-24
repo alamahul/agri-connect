@@ -26,7 +26,9 @@ import {
    Globe,
    Settings,
    Wallet,
-   Info
+   Info,
+   Truck,
+   Clock
 } from 'lucide-react';
 
 const CustomerSettings = () => {

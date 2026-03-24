@@ -58,7 +58,7 @@ const HARVEST_DATA = [
     totalQuota: 100,
     currentOrder: 85,
     countdown: "4 Jam 20 Menit",
-    image: "https://images.unsplash.com/photo-1622205313162-be1d5756a43f?w=500",
+    image: "https://images.unsplash.com/photo-1515356956468-873dd257f911?q=80&w=500",
     distance: "8 KM"
   },
   {
