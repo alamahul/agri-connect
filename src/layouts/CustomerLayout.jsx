@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, HelpCircle, Settings, Menu, Bell, Star, ChevronLeft, ChevronRight, LogOut, Clock, FileText } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, HelpCircle, Settings, Menu, Bell, Star, ChevronLeft, ChevronRight, LogOut, Clock, FileText, Home } from 'lucide-react';
 import { CUSTOMER_STATS } from '../data/dummyCustomer';
 import logoOnly from '../assets/logo-only.png';
 
@@ -83,27 +83,34 @@ const CustomerLayout = () => {
           ))}
         </nav>
 
-        {/* Badge section */}
-        <div className={`p-4 border-t border-neutral-700 transition-all duration-300 ${isMinimized ? 'hidden' : 'block'}`}>
-          <div className="m-2 p-3 bg-neutral-700/50 rounded border border-neutral-600">
-            <div className="flex items-center gap-2 mb-1">
-              <Star size={14} className="text-amber-400 fill-amber-400" />
-              <span className="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Status Anda</span>
-            </div>
-            <p className="text-sm font-bold text-white">{CUSTOMER_STATS.badge}</p>
-            <p className="text-xs text-gray-400 mt-1">{CUSTOMER_STATS.loyaltyPoints} poin loyalitas</p>
-          </div>
-        </div>
-
-        {/* Toggle Button Minimalized (Desktop Only) */}
-        <div className="hidden md:block p-4 border-t border-neutral-700">
-          <button
-            onClick={() => setIsMinimized(!isMinimized)}
-            className="w-full flex items-center justify-center p-2 rounded bg-neutral-700 text-white hover:bg-neutral-600 transition-colors"
-            title={isMinimized ? "Expand Sidebar" : "Minimize Sidebar"}
+        {/* Home & Toggle Button Section */}
+        <div className="p-4 border-t border-neutral-700 space-y-2">
+          <NavLink
+            to="/"
+            className={`
+              flex items-center gap-3 px-4 py-2 rounded text-sm font-bold transition-all
+              ${isMinimized ? 'md:justify-center md:px-0' : 'hover:bg-neutral-700'}
+              text-gray-400 hover:text-white
+            `}
+            title="Beranda Utama"
           >
-            {isMinimized ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-          </button>
+            <div className="flex-shrink-0">
+              <Home size={20} />
+            </div>
+            <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${isMinimized ? 'md:hidden' : 'block'}`}>
+              Beranda Utama
+            </span>
+          </NavLink>
+
+          <div className="hidden md:block">
+            <button
+              onClick={() => setIsMinimized(!isMinimized)}
+              className="w-full flex items-center justify-center p-2 rounded bg-neutral-700 text-white hover:bg-neutral-600 transition-colors"
+              title={isMinimized ? "Expand Sidebar" : "Minimize Sidebar"}
+            >
+              {isMinimized ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -111,6 +118,12 @@ const CustomerLayout = () => {
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         {/* Topbar */}
         <header className="h-20 bg-neutral-800 border-b border-gray-700 flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
+
+          <div className="hidden md:block">
+            <p className="text-sm font-bold text-gray-100">Panel Pelanggan</p>
+            <p className="text-xs text-gray-400">AgriConnect – TECHSOFT 2026</p>
+          </div>
+
           <div className="flex items-center flex-1 gap-4">
             <button
               className="p-2 md:hidden text-gray-400 hover:bg-neutral-700 hover:text-white rounded"
@@ -119,47 +132,7 @@ const CustomerLayout = () => {
               <Menu size={24} />
             </button>
 
-            {/* Global Search */}
-            <div className="relative max-w-md w-full hidden sm:block">
-              <div className="relative group/search">
-                <input
-                  type="text"
-                  placeholder="Cari komoditas atau petani..."
-                  className="w-full h-10 pl-10 pr-4 rounded-lg bg-neutral-700 border-transparent focus:bg-neutral-600 focus:border-amber-400 focus:ring-0 text-white text-sm transition-all"
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setShowSearchSuggestions(true);
-                  }}
-                  onFocus={() => setShowSearchSuggestions(true)}
-                />
-              </div>
-
-              {/* Search Suggestions Dropdown */}
-              {showSearchSuggestions && searchQuery.length > 0 && (
-                <div className="absolute top-full left-0 mt-2 w-full bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {suggestions.length > 0 ? (
-                    suggestions.map(s => (
-                      <button
-                        key={s.id}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between group"
-                        onClick={() => {
-                          setSearchQuery(s.name);
-                          setShowSearchSuggestions(false);
-                        }}
-                      >
-                        <span className="text-sm font-medium text-gray-700 group-hover:text-amber-600">{s.name}</span>
-                        <span className="text-[10px] uppercase tracking-wider text-gray-400">{s.category}</span>
-                      </button>
-                    ))
-                  ) : (
-                    <div className="px-4 py-2 text-sm text-gray-500">Tidak ada hasil</div>
-                  )}
-                  <div className="absolute inset-0 z-[-1]" onClick={() => setShowSearchSuggestions(false)}></div>
-                </div>
-              )}
-              {showSearchSuggestions && <div className="fixed inset-0 z-[-1]" onClick={() => setShowSearchSuggestions(false)}></div>}
-            </div>
+            {/* Back to Home Button removed from here */}
           </div>
 
           <div className="flex items-center gap-4 ml-auto relative">
@@ -193,9 +166,13 @@ const CustomerLayout = () => {
                         </div>
                       ))}
                     </div>
-                    <button className="w-full py-2.5 text-xs text-gray-500 font-medium bg-gray-50 hover:bg-gray-100 transition-colors">
+                    <NavLink
+                      to="/pelanggan/notifications"
+                      onClick={() => setIsNotificationsOpen(false)}
+                      className="w-full py-2.5 text-xs text-center text-gray-500 font-medium bg-gray-50 hover:bg-gray-100 transition-colors block"
+                    >
                       Lihat Semua Notifikasi
-                    </button>
+                    </NavLink>
                   </div>
                 </>
               )}
@@ -229,12 +206,30 @@ const CustomerLayout = () => {
                   </div>
 
                   <NavLink
+                    to="/"
+                    onClick={() => setIsProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-amber-600 font-bold hover:bg-amber-50 transition-colors border-b border-gray-100"
+                  >
+                    <Home size={16} />
+                    <span>Beranda Utama</span>
+                  </NavLink>
+
+                  <NavLink
                     to="/pelanggan/settings"
                     onClick={() => setIsProfileOpen(false)}
                     className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   >
                     <Settings size={16} />
                     <span>Pengaturan</span>
+                  </NavLink>
+
+                  <NavLink
+                    to="/pelanggan/help"
+                    onClick={() => setIsProfileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-50"
+                  >
+                    <HelpCircle size={16} />
+                    <span>Pusat Bantuan</span>
                   </NavLink>
 
                   <div className="md:hidden px-4 py-2 flex items-center gap-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100">

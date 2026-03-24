@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { 
-  TrendingUp, 
-  Award, 
-  ChevronRight, 
-  Handshake, 
-  ShoppingBag, 
-  Navigation, 
-  Clock, 
-  Calendar, 
-  Plus, 
-  BarChart2, 
+import {
+  TrendingUp,
+  Award,
+  ChevronRight,
+  Handshake,
+  ShoppingBag,
+  Navigation,
+  Clock,
+  Calendar,
+  Plus,
+  BarChart2,
   ArrowRight,
   ShieldCheck,
   X,
   Target
 } from 'lucide-react';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
   Legend
 } from 'recharts';
@@ -60,8 +60,8 @@ const CustomerDashboard = () => {
               Halo, {user?.fullName || CUSTOMER_STATS.name}! 👋
             </h1>
             <p className="text-gray-300 text-lg">Selamat datang kembali di ekosistem pangan lokal.</p>
-            
-            <button 
+
+            <button
               onClick={() => setShowBadgeModal(true)}
               className="mt-6 flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/20 transition-all group active:scale-95"
             >
@@ -76,10 +76,10 @@ const CustomerDashboard = () => {
               </div>
             </button>
           </div>
-          
+
           {/* Decorative element */}
           <div className="hidden lg:block absolute top-0 right-10 translate-y-[-20%] opacity-20 pointer-events-none">
-             <div className="w-64 h-64 bg-amber-400 rounded-full blur-[100px]"></div>
+            <div className="w-64 h-64 bg-amber-400 rounded-full blur-[100px]"></div>
           </div>
         </div>
       </section>
@@ -112,7 +112,7 @@ const CustomerDashboard = () => {
         </div>
 
         {/* Card 3: Pesanan Aktif */}
-        <button 
+        <button
           onClick={() => window.location.href = '/pelanggan/orders'}
           className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all group text-left relative overflow-hidden active:scale-95"
         >
@@ -143,11 +143,11 @@ const CustomerDashboard = () => {
             Lihat Semua <ChevronRight size={16} />
           </button>
         </div>
-        
+
         <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide snap-x">
           {RECOMMENDED_PRODUCTS.map((product) => (
-            <div 
-              key={product.id} 
+            <div
+              key={product.id}
               className="min-w-[280px] bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group snap-start cursor-pointer"
               onClick={() => setSelectedProduct(product)}
             >
@@ -193,19 +193,19 @@ const CustomerDashboard = () => {
               <p className="text-xs text-gray-500">Pesan sekarang sebelum dipetik untuk jaminan stok.</p>
             </div>
           </div>
-          
+
           <div className="space-y-3">
             {[1, 2].map((i) => (
               <div key={i} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex gap-4 hover:border-amber-200 transition-colors group">
                 <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 relative">
-                    <img 
-                      src={i === 1 ? "https://images.unsplash.com/photo-1596040033229-a9821ebd05de?w=400" : "https://images.unsplash.com/photo-1557844352-761f2565b576?w=400"} 
-                      alt="product" 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
-                    />
-                    <div className="absolute top-0 right-0 p-1 bg-amber-400 rounded-bl-lg">
-                      <Calendar size={12} className="text-black" />
-                    </div>
+                  <img
+                    src={i === 1 ? "https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?q=80&w=400" : "https://images.unsplash.com/photo-1557844352-761f2565b576?w=400"}
+                    alt="product"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                  />
+                  <div className="absolute top-0 right-0 p-1 bg-amber-400 rounded-bl-lg">
+                    <Calendar size={12} className="text-black" />
+                  </div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start mb-1">
@@ -217,7 +217,7 @@ const CustomerDashboard = () => {
                   <h3 className="font-bold text-gray-900 mb-1 truncate">{i === 1 ? "Brokoli Organik" : "Wortel Brastagi"}</h3>
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-extrabold text-gray-900">Rp {i === 1 ? "18.500" : "12.000"}<span className="text-xs text-gray-400 font-normal">/ikat</span></span>
-                    <button 
+                    <button
                       onClick={handlePreOrder}
                       className="text-xs font-bold text-white bg-neutral-800 hover:bg-black px-4 py-2 rounded-xl transition-all active:scale-95"
                     >
@@ -248,37 +248,37 @@ const CustomerDashboard = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={priceTrendData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{fontSize: 12, fill: '#94a3b8', fontWeight: 600}}
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 12, fill: '#94a3b8', fontWeight: 600 }}
                   dy={10}
                 />
                 <YAxis hide />
-                <Tooltip 
-                  contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
-                  itemStyle={{fontSize: '12px', fontWeight: 'bold'}}
-                  labelStyle={{fontSize: '11px', fontWeight: 'bold', color: '#64748b', marginBottom: '4px'}}
+                <Tooltip
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
+                  labelStyle={{ fontSize: '11px', fontWeight: 'bold', color: '#64748b', marginBottom: '4px' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="pasar" 
-                  stroke="#ef4444" 
-                  strokeWidth={3} 
+                <Line
+                  type="monotone"
+                  dataKey="pasar"
+                  stroke="#ef4444"
+                  strokeWidth={3}
                   dot={{ r: 4, fill: '#ef4444', strokeWidth: 0 }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="agriconnect" 
-                  stroke="#22c55e" 
-                  strokeWidth={4} 
+                <Line
+                  type="monotone"
+                  dataKey="agriconnect"
+                  stroke="#22c55e"
+                  strokeWidth={4}
                   dot={{ r: 4, fill: '#22c55e', strokeWidth: 0 }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
@@ -295,41 +295,41 @@ const CustomerDashboard = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm" onClick={() => setShowBadgeModal(false)}></div>
           <div className="bg-white rounded-[2rem] p-8 w-full max-w-md relative z-10 shadow-2xl animate-in zoom-in-95 fade-in duration-300">
-             <button onClick={() => setShowBadgeModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
+            <button onClick={() => setShowBadgeModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
               <X size={24} />
-             </button>
-             
-             <div className="text-center">
-               <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
-                 <Award size={48} className="text-amber-500 fill-amber-500/20" />
-                 <div className="absolute -bottom-2 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">IVL 2</div>
-               </div>
-               
-               <h2 className="text-2xl font-extrabold text-gray-900 mb-2 uppercase">Pahlawan Lokal</h2>
-               <p className="text-gray-500 mb-8 px-4 leading-relaxed italic">"Kamu sudah membantu 5 petani lokal bulan ini! Kamu adalah bagian dari revolusi pangan lokal."</p>
-               
-               <div className="space-y-4 text-left">
-                 <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                   <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
-                     <span>Progres Level 3</span>
-                     <span className="text-amber-600">60%</span>
-                   </div>
-                   <div className="h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                     <div className="h-full bg-amber-500 w-[60%] rounded-full shadow-sm"></div>
-                   </div>
-                   <p className="text-xs text-gray-500 mt-4 leading-relaxed font-medium">
-                     Lakukan <span className="text-amber-600 font-bold">2 transaksi lagi</span> untuk naik ke Level 3 dan dapatkan voucher <span className="font-bold">Bebas Ongkir</span>.
-                   </p>
-                 </div>
-               </div>
-               
-               <button 
-                  onClick={() => setShowBadgeModal(false)}
-                  className="w-full mt-8 bg-neutral-900 hover:bg-black text-white py-4 rounded-2xl font-bold shadow-xl shadow-neutral-900/20 active:scale-95 transition-all uppercase tracking-widest"
-               >
-                 Siap Lanjuutkan!
-               </button>
-             </div>
+            </button>
+
+            <div className="text-center">
+              <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+                <Award size={48} className="text-amber-500 fill-amber-500/20" />
+                <div className="absolute -bottom-2 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">IVL 2</div>
+              </div>
+
+              <h2 className="text-2xl font-extrabold text-gray-900 mb-2 uppercase">Pahlawan Lokal</h2>
+              <p className="text-gray-500 mb-8 px-4 leading-relaxed italic">"Kamu sudah membantu 5 petani lokal bulan ini! Kamu adalah bagian dari revolusi pangan lokal."</p>
+
+              <div className="space-y-4 text-left">
+                <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                  <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+                    <span>Progres Level 3</span>
+                    <span className="text-amber-600">60%</span>
+                  </div>
+                  <div className="h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-full bg-amber-500 w-[60%] rounded-full shadow-sm"></div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-4 leading-relaxed font-medium">
+                    Lakukan <span className="text-amber-600 font-bold">2 transaksi lagi</span> untuk naik ke Level 3 dan dapatkan voucher <span className="font-bold">Bebas Ongkir</span>.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowBadgeModal(false)}
+                className="w-full mt-8 bg-neutral-900 hover:bg-black text-white py-4 rounded-2xl font-bold shadow-xl shadow-neutral-900/20 active:scale-95 transition-all uppercase tracking-widest"
+              >
+                Siap Lanjuutkan!
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -370,10 +370,10 @@ const CustomerDashboard = () => {
                   </div>
 
                   <div className="bg-neutral-50 p-4 rounded-2xl">
-                     <div className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                       <ShieldCheck className="text-green-500" size={20} />
-                       Dana Aman di Sistem Escrow
-                     </div>
+                    <div className="flex items-center gap-3 text-sm font-medium text-gray-600">
+                      <ShieldCheck className="text-green-500" size={20} />
+                      Dana Aman di Sistem Escrow
+                    </div>
                   </div>
 
                   <button className="w-full bg-neutral-900 hover:bg-black text-white py-4 rounded-xl font-bold shadow-lg transition-all active:scale-95 uppercase tracking-widest">
@@ -391,7 +391,7 @@ const CustomerDashboard = () => {
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] animate-in slide-in-from-bottom-10 fade-in duration-500">
           <div className="bg-neutral-800 text-white px-6 py-4 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-4">
             <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-               <Target size={20} className="text-white" />
+              <Target size={20} className="text-white" />
             </div>
             <div>
               <p className="font-bold text-sm">Pesanan Pre-Order berhasil!</p>

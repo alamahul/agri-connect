@@ -46,7 +46,7 @@ const HISTORY_DATA = [
       farmer: "Sari Organik Ciwidey",
       farm: "Ciwidey, Kab. Bandung",
       items: [
-         { name: "Selada Hidroponik", qty: 3, unit: "Pack", price: 8000, image: "https://images.unsplash.com/photo-1622205313162-be1d5756a43f?w=100" }
+         { name: "Selada Hidroponik", qty: 3, unit: "Pack", price: 8000, image: "https://images.unsplash.com/photo-1515356956468-873dd257f911?q=80&w=500" }
       ],
       productTotal: 24000,
       logistics: 12000,
@@ -134,7 +134,7 @@ const CustomerHistory = () => {
          <div className="grid grid-cols-1 gap-4">
             {filteredHistory.length > 0 ? (
                filteredHistory.map((item) => (
-                  <div key={item.id} className="bg-white rounded-[2rem] border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                  <div key={item.id} className="bg-white rounded-[6px] border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                      <div className="flex flex-col lg:flex-row gap-6">
                         {/* Left Info */}
                         <div className="flex-1 flex gap-5">
