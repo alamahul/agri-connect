@@ -52,7 +52,7 @@ const CustomerLayout = () => {
         md:translate-x-0 md:static
       `}>
         <div className={`h-20 flex items-center px-6 gap-3 ${isMinimized ? 'md:justify-center md:px-0' : ''}`}>
-          <img src={logoOnly} alt="logo" className="w-10 h-10 object-contain" />
+          <img src={logoOnly} alt="logo agriconnect" className="w-10 h-10 object-contain" />
           <span className={`text-xl font-extrabold text-white tracking-tight whitespace-nowrap overflow-hidden transition-all duration-300 ${isMinimized ? 'md:hidden' : 'block'}`}>
             AgriConnect
           </span>

@@ -21,6 +21,7 @@ export default {
       fontFamily: {
         // Make Manrope the global sans-serif (used by Tailwind's font-sans = default)
         sans: ['Manrope', 'system-ui', 'sans-serif'],
+        grace: ["'Covered By Your Grace'", "cursive"],
       },
       colors: {
         // AgriConnect primary green palette — matches the landing page
