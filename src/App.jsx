@@ -1,10 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
+import LandingPage from './pages/LandingPage';
+import CartPage from './pages/CartPage';
+import ProductCatalog from './pages/ProductCatalog';
+
 // Auth pages
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import LandingPage from './pages/LandingPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 
 // Layouts
@@ -50,6 +53,8 @@ function App() {
       <Routes>
         {/* Root */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/catalog" element={<ProductCatalog />} />
 
         {/* Auth */}
         <Route path="/login" element={<LoginPage />} />
