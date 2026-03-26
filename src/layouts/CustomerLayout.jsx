@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { LayoutDashboard, ShoppingBag, HelpCircle, Settings, Menu, Bell, Star, ChevronLeft, ChevronRight, LogOut, Clock, FileText, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { CUSTOMER_STATS } from '../data/dummyCustomer';
 import logoOnly from '../assets/logo-only.png';
 
@@ -11,6 +13,13 @@ const CustomerLayout = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const menuItems = [
     { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/pelanggan/dashboard' },
@@ -240,7 +249,7 @@ const CustomerLayout = () => {
                   <button
                     onClick={() => {
                       setIsProfileOpen(false);
-                      // Handle logout logic here
+                      handleLogout();
                     }}
                     className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors mt-1"
                   >

@@ -3,9 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 import ProductCatalog from './pages/ProductCatalog';
 import DetailProduct from './pages/DetailProduct';
+import FarmerProfile from './pages/FarmerProfile';
 import NewsPage from './pages/NewsPage';
+import NewsDetailPage from './pages/NewsDetail';
+import FloatingActions from './components/FloatingActions';
+import DemoAlert from './components/DemoAlert';
+import { AlertProvider } from './contexts/AlertContext';
 
 // Auth pages
 import LoginPage from './pages/LoginPage';
@@ -51,60 +57,70 @@ import Error404 from './pages/Error404';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Root */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/catalog" element={<ProductCatalog />} />
-        <Route path="/detail-product" element={<DetailProduct />} />
-        <Route path="/berita" element={<NewsPage />} />
+    <AlertProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Root */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/catalog" element={<ProductCatalog />} />
+          <Route path="/product/:id" element={<DetailProduct />} />
+          <Route path="/detail-product" element={<DetailProduct />} />
+          <Route path="/petani/:id" element={<FarmerProfile />} />
+          <Route path="/profil-petani" element={<FarmerProfile />} />
+          <Route path="/berita" element={<NewsPage />} />
+          <Route path="/berita/:id" element={<NewsDetailPage />} />
+          <Route path="/news/:id" element={<NewsDetailPage />} />
 
-        {/* Auth */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/adminAgriConnect/login" element={<AdminLoginPage />} />
+          {/* Auth */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/adminAgriConnect/login" element={<AdminLoginPage />} />
 
-        {/* Farmer Session */}
-        <Route path="/petani" element={<FarmerLayout />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<FarmerDashboard />} />
-          <Route path="inventory" element={<FarmerInventory />} />
-          <Route path="orders" element={<FarmerOrders />} />
-          <Route path="analytics" element={<FarmerAnalytics />} />
-          <Route path="help" element={<FarmerHelp />} />
-          <Route path="settings" element={<FarmerSettings />} />
-          <Route path="notifications" element={<FarmerNotifications />} />
-        </Route>
+          {/* Farmer Session */}
+          <Route path="/petani" element={<FarmerLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<FarmerDashboard />} />
+            <Route path="inventory" element={<FarmerInventory />} />
+            <Route path="orders" element={<FarmerOrders />} />
+            <Route path="analytics" element={<FarmerAnalytics />} />
+            <Route path="help" element={<FarmerHelp />} />
+            <Route path="settings" element={<FarmerSettings />} />
+            <Route path="notifications" element={<FarmerNotifications />} />
+          </Route>
 
-        {/* Customer Session */}
-        <Route path="/pelanggan" element={<CustomerLayout />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<CustomerDashboard />} />
-          <Route path="orders" element={<CustomerOrders />} />
-          <Route path="preorder" element={<CustomerPreOrder />} />
-          <Route path="history" element={<CustomerHistory />} />
-          <Route path="help" element={<CustomerHelp />} />
-          <Route path="settings" element={<CustomerSettings />} />
-          <Route path="notifications" element={<CustomerNotifications />} />
-        </Route>
+          {/* Customer Session */}
+          <Route path="/pelanggan" element={<CustomerLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<CustomerDashboard />} />
+            <Route path="orders" element={<CustomerOrders />} />
+            <Route path="preorder" element={<CustomerPreOrder />} />
+            <Route path="history" element={<CustomerHistory />} />
+            <Route path="help" element={<CustomerHelp />} />
+            <Route path="settings" element={<CustomerSettings />} />
+            <Route path="notifications" element={<CustomerNotifications />} />
+          </Route>
 
-        {/* Admin Panel */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="users" element={<AdminUsers />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="articles" element={<AdminArticles />} />
-          <Route path="analytics" element={<AdminAnalytics />} />
-          <Route path="help" element={<AdminHelp />} />
-          <Route path="settings" element={<AdminSettings />} />
-          <Route path="data" element={<AdminData />} />
-          <Route path="notifications" element={<AdminNotifications />} />
-        </Route>
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Admin Panel */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="articles" element={<AdminArticles />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="help" element={<AdminHelp />} />
+            <Route path="settings" element={<AdminSettings />} />
+            <Route path="data" element={<AdminData />} />
+            <Route path="notifications" element={<AdminNotifications />} />
+          </Route>
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+        <FloatingActions />
+        <DemoAlert />
+      </BrowserRouter>
+    </AlertProvider>
   );
 }
 
