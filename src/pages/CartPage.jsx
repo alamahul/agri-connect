@@ -11,9 +11,6 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useAlert } from "../contexts/AlertContext";
 import { useState } from "react";
-import imageFarmer1 from "./../assets/farmer1.png";
-import imageFarmer2 from "./../assets/farmer2.jpeg";
-import imageFarmer3 from "./../assets/farmer3.png";
 import sponsor from "./../assets/sponsor-section.png";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -108,7 +105,7 @@ const CartPage = () => {
       {/* Navbar */}
       <Navbar active={active} setActive={setActive} />
 
-      {/* Breadcrumb & Title - Responsive */}
+      {/* Breadcrumb & Title */}
       <div className="flex flex-col justify-center px-4 sm:px-6">
         <div className="max-w-6xl mx-auto w-full py-6 sm:py-8 2xl:py-0 2xl:pt-8">
           <div className="flex items-center gap-2 text-xs sm:text-sm mb-3 sm:mb-4">

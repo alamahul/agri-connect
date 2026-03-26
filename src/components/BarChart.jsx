@@ -15,7 +15,7 @@ const filters = ['Hari', 'Minggu', 'Bulan'];
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 text-xs">
+      <div className="bg-white border border-slate-200 rounded-lg shadow-lg px-3 py-2 !text-xs">
         <p className="font-semibold text-slate-700">{label}</p>
         <p className="text-emerald-600 mt-0.5">
           <span className="font-bold">{payload[0].value.toLocaleString('id-ID')}</span>

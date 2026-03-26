@@ -40,8 +40,8 @@ const NewsDetailPage = () => {
                   <Link
                     to={index === 0 ? "/" : index === 1 ? "/berita" : "#"}
                     className={`${index === breadcrumb.length - 1
-                        ? "text-[#EEC044] font-bold"
-                        : "text-gray-500 hover:text-[#EEC044]"
+                        ? "text-[#EEC044]"
+                        : "hover:text-[#EEC044]"
                       } transition text-xs sm:text-sm`}
                   >
                     {item.length > 30 ? `${item.substring(0, 30)}...` : item}

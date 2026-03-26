@@ -13,10 +13,6 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useAlert } from "../contexts/AlertContext";
 import { useState, useEffect } from "react";
-import imageFarmer1 from "./../assets/farmer1.png";
-import imageFarmer2 from "./../assets/farmer2.jpeg";
-import imageFarmer3 from "./../assets/farmer3.png";
-import sponsor from "./../assets/sponsor-section.png";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -114,7 +110,7 @@ const CheckoutPage = () => {
                   to={index === 0 ? "/" : index === 1 ? "/cart" : "#"}
                   className={`${index === breadcrumb.length - 1
                     ? "text-[#EEC044] font-bold"
-                    : "text-gray-500 hover:text-[#EEC044]"
+                    : "hover:text-[#EEC044]"
                     } transition`}
                 >
                   {item}
@@ -199,7 +195,7 @@ const CheckoutPage = () => {
             <div className="sticky top-24 space-y-6">
               {/* Payment Methods */}
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 className="font-bold text-[#1F1E17] mb-6 flex items-center gap-2 uppercase text-xs tracking-wider text-gray-400">
+                <h3 className="font-bold text-[#1F1E17] mb-6 flex items-center gap-2 uppercase text-xs tracking-wider">
                   Metode Pembayaran
                 </h3>
                 <div className="space-y-3">

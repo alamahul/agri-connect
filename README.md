@@ -30,51 +30,15 @@ Karya ini dibuat untuk **TECHSOFT 2026 - Web Design Competition** dengan mengang
 * **Tujuan:** Memberdayakan ekonomi petani lokal dengan memotong jalur distribusi serta menyediakan akses pangan segar berkualitas tinggi bagi masyarakat luas.
 * **Inovasi:** Integrasi Dashboard Ekonomi khusus petani (Real-time Analytics), sistem pelacakan pesanan transparan, dan fitur Bantuan interaktif.
 
-## ✨ Fitur Utama
-
-### 🛒 Untuk Pelanggan (Customer)
-- **Marketplace Produk Segar:** Telusuri berbagai produk pertanian langsung dari petani.
-- **Sistem Pre-Order:** Pesan hasil tani sebelum masa panen untuk harga yang lebih kompetitif.
-- **Pelacakan Pesanan:** Pantau status pengiriman pesanan secara real-time.
-- **Riwayat Transaksi:** Dokumentasi lengkap semua pembelian dan invoice.
-
-### 👨‍🌾 Untuk Petani (Farmer)
-- **Dashboard Analitik:** Visualisasi data penjualan dan tren pasar.
-- **Manajemen Inventaris:** Kelola stok produk dengan mudah.
-- **Manajemen Pesanan:** Proses pesanan masuk dari pelanggan secara efisien.
-- **Sistem Notifikasi:** Pemberitahuan real-time untuk setiap aktivitas transaksi.
-
-### 🛡️ Untuk Admin
-- **Manajemen Pengguna:** Pantau dan kelola akun pelanggan serta petani.
-- **Monitoring Produk:** Validasi dan kelola katalog produk di platform.
-- **Pusat Bantuan:** Kelola tiket bantuan dan interaksi pengguna.
-- **Analitik Platform:** Data statistik pertumbuhan platform secara keseluruhan.
-
-## 📁 Struktur Proyek
-
-```text
-agri-connect/
-├── public/              # Aset statis (gambar, ikon)
-├── src/
-│   ├── assets/          # File media & gambar
-│   ├── components/      # Komponen UI reusable (Button, Card, Sidebar, dll)
-│   ├── contexts/        # React Context untuk State Management
-│   ├── data/            # Data dummy & konfigurasi
-│   ├── layouts/         # Layout utama untuk setiap role
-│   ├── pages/           # Halaman aplikasi berdasarkan role
-│   │   ├── admin/       # Halaman khusus Admin
-│   │   ├── customer/    # Halaman khusus Customer
-│   │   ├── farmer/      # Halaman khusus Farmer
-│   │   └── ...          # Landing Page, Login, Register
-│   ├── App.jsx          # Konfigurasi Routing
-│   └── main.jsx         # Entry point aplikasi
-├── tailwind.config.js   # Konfigurasi Tailwind CSS
-└── vite.config.js       # Konfigurasi Vite
-```
-
 ## 🌐 Link Website (Deploy)
 
 **[https://agriconnect.web.id/](https://agriconnect.web.id/)**
+
+---
+
+## Link UIUX (Figma)
+
+**[https://www.figma.com/design/GFSgdjTIlYXqHeBEeojxNU/AgriConnect-Web?node-id=0-1&t=UY87md1sfeHYqQgE-0](https://www.figma.com/design/GFSgdjTIlYXqHeBEeojxNU/AgriConnect-Web?node-id=0-1&t=UY87md1sfeHYqQgE-0)**
 
 ---
 
@@ -202,7 +166,7 @@ agri-connect/
 
 note : 
 1. "untuk login admin gunakan link /adminAgriConnect/login"
-2. semua data diatas dummy bahkan bisa login degan username/email dan password apapun.
+2. "semua data diatas dummy bahkan bisa login degan username/email dan password apapun."
 ---
 
 ## 🚀 Panduan Memulai (Getting Started)
@@ -217,16 +181,22 @@ Lakukan langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal:
 
 ```bash
 # 1. Clone repositori ini
-git clone https://github.com/yourusername/agri-connect.git
+git clone https://github.com/karinahnis/agriculture-landing.git
 
 # 2. Masuk ke direktori proyek
-cd agri-connect
+cd agriculture-landing
 
 # 3. Instal semua dependensi agar sistem berjalan lancar
 npm install
 
 # 4. Jalankan aplikasi dalam mode pengembangan
 npm run dev
+
+# 5. Bangun aplikasi untuk production
+npm run build
+
+# 6. Jalankan aplikasi hasil bangun aplikasi
+npm run preview
 ```
 
 Aplikasi akan berjalan di `http://localhost:5173/` secara default.

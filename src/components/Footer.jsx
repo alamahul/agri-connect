@@ -34,14 +34,14 @@ const kontakList = [
 const Footer = () => {
   return (
     <div>
-      <footer className="flex flex-col md:flex-row justify-around bottom-0 bg-[#24231D] text-center py-12 md:py-24 text-[#A5A49A] text-xs flex-wrap gap-8 px-6 sm:px-10">
+      <footer className="flex flex-col md:flex-row justify-around bottom-0 bg-[#24231D] text-center py-12 md:py-24 text-[#A5A49A] !text-xs flex-wrap gap-8 px-6 sm:px-10">
         <div className="text-center md:text-start max-w-xs mx-auto md:mx-0">
           <img
             src={logoText}
             alt="logo"
             className="w-32 sm:w-[11rem] mx-auto md:mx-0"
           />
-          <p className="w-full md:w-[12rem] mt-2 leading-loose text-xs sm:text-sm">
+          <p className="w-full md:w-[12rem] mt-2 leading-loose !text-xs sm:text-sm">
             Proyek ini dikembangkan khusus sebagai inovasi digital dalam ajang
             TECHSOFT 2026.
           </p>
@@ -79,7 +79,7 @@ const Footer = () => {
                 className="flex items-center justify-center md:justify-start gap-2 mb-3 text-white"
               >
                 <img src={item.icon} className="object-contain w-3 flex-shrink-0" alt="" />
-                <p className="text-xs whitespace-pre-line text-left">{item.text}</p>
+                <p className="!text-xs whitespace-pre-line text-left">{item.text}</p>
               </li>
             ))}
           </ul>
