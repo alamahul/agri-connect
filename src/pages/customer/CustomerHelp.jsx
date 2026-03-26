@@ -41,6 +41,21 @@ const USER_GUIDE = [
     id: 'preorder',
     q: "D. Cara Menggunakan Fitur 'Panen Besok'",
     a: "Pilih produk berlogo 'Panen Besok' di dashboard. Lakukan pembayaran (DP atau Lunas) seperti biasa. Sistem kami akan mengirimkan pengingat H-1 sebelum petani memanen pesanan Anda agar Anda siap menerima kesegaran langsung dari kebun."
+  },
+  {
+    id: 'badge',
+    q: "E. Memahami Badge 'Petani Terverifikasi'",
+    a: "Setiap petani di AgriConnect telah melalui kunjungan lapangan dan pengecekan kualitas tanah. Badge emas menandakan petani tersebut telah memiliki rating rata-rata 4.8+ dan minimal telah sukses menyelesaikan 50+ transaksi tanpa komplain."
+  },
+  {
+    id: 'loyalty',
+    q: "F. Keuntungan Program AgriPoints",
+    a: "Kumpulkan AgriPoints dari setiap transaksi sukses. Poin ini dapat ditukarkan dengan potongan ongkir atau diskon spesial saat panen raya tiba. Cek saldo poin Anda di menu Profil."
+  },
+  {
+    id: 'bulk',
+    q: "G. Pesanan Skala Besar (B2B)",
+    a: "Untuk kebutuhan restoran atau hotel, Anda dapat menggunakan fitur 'Chat Penawaran' langsung kepada petani untuk mendapatkan harga khusus grosir dengan jaminan kualitas supply harian yang stabil."
   }
 ];
 
@@ -58,6 +73,9 @@ const CustomerHelp = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Modal states for help categories
+  const [activeModal, setActiveModal] = useState(null); // 'tracking', 'payment', 'farmer'
 
   const [chatMsgs, setChatMsgs] = useState([
     { sender: 'bot', text: 'Halo! Saya AgriBot. Apakah panduan di atas sudah menjawab pertanyaan Anda? Atau Anda butuh bantuan langsung membatalkan pesanan/melacak barang?' }
@@ -152,11 +170,15 @@ const CustomerHelp = () => {
       {/* 3. Kategori Kendala Berbasis Kartu (Grid) */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { icon: <Truck size={32} />, title: "Lacak Pengiriman", desc: "Pantau real-time posisi kurir Anda.", color: "bg-indigo-50 text-indigo-600", border: "border-indigo-100" },
-          { icon: <Wallet size={32} />, title: "Kendala Pembayaran", desc: "Solusi gagal bayar atau refund DP.", color: "bg-amber-50 text-amber-600", border: "border-amber-100" },
-          { icon: <UserCheck size={32} />, title: "Info Petani Mitra", desc: "Lihat transparansi proses kurasi petani.", color: "bg-green-50 text-green-600", border: "border-green-100" },
+          { id: 'shipping_guide', icon: <Truck size={32} />, title: "Panduan Pengiriman", desc: "Cara melacak & estimasi waktu sampai.", color: "bg-indigo-50 text-indigo-600", border: "border-indigo-100" },
+          { id: 'payment', icon: <Wallet size={32} />, title: "Kendala Pembayaran", desc: "Solusi gagal bayar atau refund DP.", color: "bg-amber-50 text-amber-600", border: "border-amber-100" },
+          { id: 'farmer', icon: <UserCheck size={32} />, title: "Info Mitra Petani", desc: "Lihat transparansi proses kurasi petani.", color: "bg-green-50 text-green-600", border: "border-green-100" },
         ].map((card, i) => (
-          <div key={i} className={`group bg-white p-8 rounded-[6px] border ${card.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer`}>
+          <div 
+            key={i} 
+            onClick={() => setActiveModal(card.id)}
+            className={`group bg-white p-8 rounded-[6px] border ${card.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer`}
+          >
             <div className={`w-16 h-16 ${card.color} rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 group-hover:rotate-6 transition-transform`}>
               {card.icon}
             </div>
@@ -165,6 +187,120 @@ const CustomerHelp = () => {
           </div>
         ))}
       </section>
+
+      {/* --- Help Modals --- */}
+      
+      {/* 1. Shipping Guide Modal */}
+      {activeModal === 'shipping_guide' && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setActiveModal(null)}></div>
+          <div className="bg-white rounded-[6px] p-10 w-full max-w-xl relative z-10 shadow-2xl animate-in zoom-in-95 duration-500">
+            <button onClick={() => setActiveModal(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-xl transition-all">
+              <X size={20} />
+            </button>
+            <div className="mb-8">
+              <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4">
+                <Truck size={32} />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 uppercase">Prosedur Pengiriman</h3>
+              <p className="text-xs text-gray-400 font-medium mt-1">Estimasi dan tata cara penerimaan barang di AgriConnect.</p>
+            </div>
+            
+            <div className="space-y-6">
+               <div className="space-y-4">
+                  <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                     <h4 className="text-xs font-black text-gray-900 uppercase mb-2">1. Waktu Operasional Panen</h4>
+                     <p className="text-[11px] text-gray-600 leading-relaxed">Petani mulai memanen pesanan Anda pada pukul 05:00 - 07:00 WIB agar kesegaran tetap terjaga maksimal saat pengiriman pagi hari.</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                     <h4 className="text-xs font-black text-gray-900 uppercase mb-2">2. Cara Melacak Kurir</h4>
+                     <p className="text-[11px] text-gray-600 leading-relaxed">Fitur pelacakan real-time hanya tersedia di halaman <b>"Daftar Pesanan"</b> setelah petani menyerahkan hasil panen kepada kurir mitra kami.</p>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                     <h4 className="text-xs font-black text-gray-900 uppercase mb-2">3. Konfirmasi Penerimaan</h4>
+                     <p className="text-[11px] text-gray-600 leading-relaxed">Pastikan Anda mengecek kondisi produk sebelum menekan tombol <b>"Pesanan Diterima"</b>. Jangan diterima jika kemasan rusak parah atau produk tidak layak.</p>
+                  </div>
+               </div>
+            </div>
+            
+            <button onClick={() => setActiveModal(null)} className="w-full mt-10 py-4 bg-neutral-900 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">
+              Mengerti, Tutup Panduan
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 2. Payment Modal */}
+      {activeModal === 'payment' && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setActiveModal(null)}></div>
+          <div className="bg-white rounded-[6px] p-10 w-full max-w-xl relative z-10 shadow-2xl animate-in zoom-in-95 duration-500">
+            <button onClick={() => setActiveModal(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-xl transition-all">
+              <X size={20} />
+            </button>
+            <div className="mb-8 flex items-center gap-4">
+              <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shrink-0">
+                <Wallet size={32} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black text-gray-900 uppercase">Pusat Bantuan Pembayaran</h3>
+                <p className="text-xs text-gray-400 font-medium">Laporkan masalah transaksi atau ajukan pencairan saldo.</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-4">
+              {[
+                { label: "Pembayaran Tidak Terverifikasi", icon: <AlertTriangle size={18} /> },
+                { label: "Ajukan Pengembalian Dana (Refund)", icon: <RotateCcw size={18} /> },
+                { label: "Metode Pembayaran Tidak Muncul", icon: <Search size={18} /> }
+              ].map((opt, i) => (
+                <button key={i} className="flex items-center justify-between p-5 bg-gray-50 hover:bg-amber-50 border border-gray-100 hover:border-amber-200 rounded-2xl transition-all group">
+                  <div className="flex items-center gap-3">
+                    <div className="text-amber-500">{opt.icon}</div>
+                    <span className="text-xs font-black text-gray-700 uppercase">{opt.label}</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-300 group-hover:text-amber-500" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Farmer Info Modal */}
+      {activeModal === 'farmer' && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setActiveModal(null)}></div>
+          <div className="bg-white rounded-[6px] p-10 w-full max-w-xl relative z-10 shadow-2xl animate-in zoom-in-95 duration-500 overflow-y-auto max-h-[90vh] custom-scrollbar">
+            <button onClick={() => setActiveModal(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:bg-gray-100 rounded-xl transition-all">
+              <X size={20} />
+            </button>
+            <div className="mb-8">
+              <div className="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-4">
+                <UserCheck size={32} />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 uppercase">Transparansi Mitra Petani</h3>
+              <p className="text-xs text-gray-400 font-medium mt-1">Standar kurasi ketat AgriConnect untuk memastikan kesegaran panen.</p>
+            </div>
+            
+            <div className="space-y-6">
+              {[
+                { title: "Verifikasi Lokasi", desc: "Tim lapangan kami mengunjungi setiap titik kebun untuk verifikasi sertifikat tanah dan kualitas air.", icon: <MapPin size={22} /> },
+                { title: "Standardisasi Organik", desc: "Pendampingan petani untuk meminimalisir penggunaan pupuk kimia demi hasil panen yang sehat.", icon: <ShieldCheck size={22} /> },
+                { title: "Kualitas Grade A", desc: "Hanya produk dengan standar kesegaran tertinggi yang lolos kurasi sistem panen besok.", icon: <CheckCircle size={22} /> }
+              ].map((info, i) => (
+                <div key={i} className="flex gap-4 p-6 bg-green-50/30 rounded-3xl border border-green-50">
+                  <div className="text-green-600 shrink-0">{info.icon}</div>
+                  <div>
+                    <h4 className="text-sm font-black text-neutral-900 uppercase tracking-tight">{info.title}</h4>
+                    <p className="text-xs text-gray-500 font-medium leading-relaxed mt-1">{info.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 5. Formulir Kontak Darurat (Ticketing) */}
       <section className="max-w-3xl mx-auto bg-white rounded-[6px] border border-gray-100 shadow-xl overflow-hidden">
