@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import CartPage from './pages/CartPage';
 import ProductCatalog from './pages/ProductCatalog';
+import DetailProduct from './pages/DetailProduct';
+import NewsPage from './pages/NewsPage';
 
 // Auth pages
 import LoginPage from './pages/LoginPage';
@@ -55,6 +57,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/catalog" element={<ProductCatalog />} />
+        <Route path="/detail-product" element={<DetailProduct />} />
+        <Route path="/berita" element={<NewsPage />} />
 
         {/* Auth */}
         <Route path="/login" element={<LoginPage />} />
