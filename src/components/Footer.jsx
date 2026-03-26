@@ -1,13 +1,13 @@
-import logoText from "../assets/logo-text.png";
-import linkIcon1 from "../assets/Link - icon.png";
-import linkIcon2 from "../assets/Link - icon (1).png";
-import linkIcon3 from "../assets/Link - icon (2).png";
-import linkIcon4 from "../assets/Link - icon (3).png";
-import garis from "../assets/garis.png";
-import telepon from "../assets/icon-telepon.png";
-import email from "../assets/icon-email.png";
-import map from "../assets/icon-map.png";
-import kirim from "../assets/kirim.png";
+import logoText from "./../assets/logo-text.png";
+import linkIcon1 from "./../assets/Link - icon.png";
+import linkIcon2 from "./../assets/Link - icon (1).png";
+import linkIcon3 from "./../assets/Link - icon (2).png";
+import linkIcon4 from "./../assets/Link - icon (3).png";
+import garis from "./../assets/garis.png";
+import telepon from "./../assets/icon-telepon.png";
+import email from "./../assets/icon-email.png";
+import map from "./../assets/icon-map.png";
+import kirim from "./../assets/kirim.png";
 
 const socialLinks = [
   { icon: linkIcon1, url: "#" },
@@ -34,8 +34,8 @@ const kontakList = [
 const Footer = () => {
   return (
     <div>
-      <footer className="flex flex-col md:flex-row justify-around bottom-0 bg-[#24231D] text-center py-12 md:py-24 text-[#A5A49A] text-xs flex-wrap gap-8 px-4">
-        <div className="text-center md:text-start">
+      <footer className="flex flex-col md:flex-row justify-around bottom-0 bg-[#24231D] text-center py-12 md:py-24 text-[#A5A49A] text-xs flex-wrap gap-8 px-6 sm:px-10">
+        <div className="text-center md:text-start max-w-xs mx-auto md:mx-0">
           <img
             src={logoText}
             alt="logo"
@@ -65,7 +65,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="text-center md:text-start w-full md:w-52">
+        <div className="text-center md:text-start w-full max-w-xs mx-auto md:mx-0 md:w-64">
           <div>
             <p className="text-base sm:text-lg font-bold text-white">Kontak</p>
           </div>
@@ -78,8 +78,8 @@ const Footer = () => {
                 key={index}
                 className="flex items-center justify-center md:justify-start gap-2 mb-3 text-white"
               >
-                <img src={item.icon} className="object-contain w-3" alt="" />
-                <p className="text-xs whitespace-pre-line">{item.text}</p>
+                <img src={item.icon} className="object-contain w-3 flex-shrink-0" alt="" />
+                <p className="text-xs whitespace-pre-line text-left">{item.text}</p>
               </li>
             ))}
           </ul>
@@ -88,9 +88,9 @@ const Footer = () => {
             <input
               type="text"
               placeholder="Masukkan Alamat Email"
-              className="!border-0 !rounded-r-none rounded-l-lg !text-[10px] placeholder:text-[10px] placeholder:font-semibold p-2 flex-1"
+              className="!border-0 !rounded-r-none rounded-l-lg !text-[10px] placeholder:text-[10px] placeholder:font-semibold p-2 flex-1 min-w-0"
             />
-            <div className="bg-[#4BAF47] hover:bg-[#3E9440] p-2 sm:p-3 flex justify-center items-center rounded-r-lg cursor-pointer">
+            <div className="bg-[#4BAF47] hover:bg-[#3E9440] p-2 sm:p-3 flex justify-center items-center rounded-r-lg cursor-pointer flex-shrink-0">
               <a href="#">
                 <img src={kirim} className="w-2.5 sm:w-3" alt="kirim" />
               </a>
@@ -101,7 +101,7 @@ const Footer = () => {
 
       {/* Copyright Footer */}
       <div>
-        <footer className="flex flex-col sm:flex-row justify-around bottom-0 bg-[#1F1E17] text-center py-4 sm:py-6 text-[#A5A49A] text-[10px] sm:text-xs flex-wrap gap-2 sm:gap-4">
+        <footer className="flex flex-col sm:flex-row justify-around bottom-0 bg-[#1F1E17] text-center py-4 sm:py-6 text-[#A5A49A] text-[10px] sm:text-xs flex-wrap gap-2 sm:gap-4 px-4">
           <p>© All Copyright 2026 by CuanDev</p>
           <p className="flex gap-2 sm:gap-3">
             <span>Terms of Use</span>

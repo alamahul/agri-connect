@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
-import { Shield } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Shield, Star, Lock, MapPin, Bot } from "lucide-react";
+import { useState } from "react";
 import imageFarmer1 from "./../assets/farmer1.png";
 import imageFarmer2 from "./../assets/farmer2.jpeg";
 import imageFarmer3 from "./../assets/farmer3.png";
@@ -16,10 +16,14 @@ const products = [
     category: "Sayuran",
     price: 35000,
     unit: "kg",
-    rating: 4.5,
-    image: imageFarmer1,
+    rating: 4.9,
+    soldCount: 120,
+    image: "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Cabai merah segar langsung dari petani, kualitas terbaik.",
     farmer: "Pak Suparman",
+    location: "Lembang",
+    distance: 12,
+    isPreOrder: false,
   },
   {
     id: 2,
@@ -28,9 +32,13 @@ const products = [
     price: 25000,
     unit: "kg",
     rating: 4.8,
-    image: imageFarmer2,
+    soldCount: 85,
+    image: "https://plus.unsplash.com/premium_photo-1770609621373-3e35cdeaf42c?q=80&w=503&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Tomat organik tanpa pestisida, manis dan segar.",
     farmer: "Bu Siti",
+    location: "Ciwidey",
+    distance: 35,
+    isPreOrder: true,
   },
   {
     id: 3,
@@ -39,9 +47,13 @@ const products = [
     price: 18000,
     unit: "kg",
     rating: 4.3,
-    image: imageFarmer3,
+    soldCount: 210,
+    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Kentang premium ukuran besar, cocok untuk berbagai masakan.",
     farmer: "Pak Budi",
+    location: "Pangalengan",
+    distance: 28,
+    isPreOrder: false,
   },
   {
     id: 4,
@@ -50,9 +62,13 @@ const products = [
     price: 22000,
     unit: "kg",
     rating: 4.6,
-    image: imageFarmer1,
+    soldCount: 150,
+    image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Wortel import segar, kaya vitamin A.",
     farmer: "Bu Dewi",
+    location: "Lembang",
+    distance: 15,
+    isPreOrder: true,
   },
   {
     id: 5,
@@ -61,9 +77,13 @@ const products = [
     price: 45000,
     unit: "kg",
     rating: 4.7,
-    image: imageFarmer2,
+    soldCount: 65,
+    image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Apel manalagi segar, renyah dan manis.",
     farmer: "Pak Hendra",
+    location: "Malang",
+    distance: 120,
+    isPreOrder: false,
   },
   {
     id: 6,
@@ -72,9 +92,13 @@ const products = [
     price: 38000,
     unit: "kg",
     rating: 4.4,
-    image: imageFarmer3,
+    soldCount: 92,
+    image: "https://images.unsplash.com/photo-1636277009869-b182eb55347d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Jeruk medan manis, kaya vitamin C.",
     farmer: "Bu Ratna",
+    location: "Medan",
+    distance: 1500,
+    isPreOrder: false,
   },
   {
     id: 7,
@@ -83,9 +107,13 @@ const products = [
     price: 32000,
     unit: "kg",
     rating: 4.2,
-    image: imageFarmer1,
+    soldCount: 300,
+    image: "https://images.unsplash.com/photo-1565685225009-fc85d9109c80?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Bawang merah segar, aroma khas untuk masakan.",
     farmer: "Pak Joko",
+    location: "Brebes",
+    distance: 250,
+    isPreOrder: false,
   },
   {
     id: 8,
@@ -94,9 +122,13 @@ const products = [
     price: 28000,
     unit: "sisir",
     rating: 4.5,
-    image: imageFarmer2,
+    soldCount: 110,
+    image: "https://plus.unsplash.com/premium_photo-1675731118330-08c71253af17?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Pisang ambon manis, cocok untuk camilan sehat.",
     farmer: "Bu Lina",
+    location: "Lampung",
+    distance: 400,
+    isPreOrder: false,
   },
   {
     id: 9,
@@ -105,9 +137,13 @@ const products = [
     price: 30000,
     unit: "kg",
     rating: 4.9,
-    image: imageFarmer3,
-    description: "Broccoli organik segar, kaya serat dan antioksidan.",
+    soldCount: 45,
+    image: "https://images.unsplash.com/photo-1757332334626-8dadb145540d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "Broccoli organik segar, kaya serat and antioksidan.",
     farmer: "Pak Rudi",
+    location: "Lembang",
+    distance: 14,
+    isPreOrder: true,
   },
   {
     id: 10,
@@ -116,9 +152,13 @@ const products = [
     price: 15000,
     unit: "kg",
     rating: 4.3,
-    image: imageFarmer1,
+    soldCount: 180,
+    image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Semangka merah manis, segar untuk pelepas dahaga.",
     farmer: "Bu Ani",
+    location: "Indramayu",
+    distance: 110,
+    isPreOrder: false,
   },
   {
     id: 11,
@@ -127,9 +167,13 @@ const products = [
     price: 12000,
     unit: "ikat",
     rating: 4.1,
-    image: imageFarmer2,
+    soldCount: 500,
+    image: "https://plus.unsplash.com/premium_photo-1701699257548-8261a687236f?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Bayam hijau segar, kaya zat besi.",
     farmer: "Pak Slamet",
+    location: "Cisarua",
+    distance: 22,
+    isPreOrder: true,
   },
   {
     id: 12,
@@ -138,41 +182,24 @@ const products = [
     price: 55000,
     unit: "kg",
     rating: 4.8,
-    image: imageFarmer3,
+    soldCount: 220,
+    image: "https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Mangga harum manis legit, buah favorit keluarga.",
     farmer: "Bu Yanti",
+    location: "Cirebon",
+    distance: 130,
+    isPreOrder: false,
   },
 ];
 
-const CartPage = () => {
+const ProductCatalog = () => {
   const navigate = useNavigate();
 
   const [active, setActive] = useState("Katalog");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [distanceFilter, setDistanceFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [isMobileMenuOpen] = useState(false);
-  const [setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen]);
 
   const breadcrumb = ["Beranda", "Katalog Produk"];
 
@@ -183,7 +210,12 @@ const CartPage = () => {
         .includes(searchTerm.toLowerCase());
       const matchesCategory =
         !selectedCategory || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+      
+      let matchesDistance = true;
+      if (distanceFilter === "dekat") matchesDistance = product.distance <= 30;
+      else if (distanceFilter === "jauh") matchesDistance = product.distance > 30;
+      
+      return matchesSearch && matchesCategory && matchesDistance;
     })
     .sort((a, b) => {
       if (sortBy === "termurah") {
@@ -210,11 +242,10 @@ const CartPage = () => {
                 {index > 0 && <span className="mx-1 sm:mx-2">/</span>}
                 <Link
                   to={index === 0 ? "/" : "#"}
-                  className={`${
-                    index === breadcrumb.length - 1
-                      ? "text-[#EEC044]"
-                      : "hover:text-[#EEC044]"
-                  } transition text-xs sm:text-sm`}
+                  className={`${index === breadcrumb.length - 1
+                    ? "text-[#EEC044]"
+                    : "hover:text-[#EEC044]"
+                    } transition text-xs sm:text-sm`}
                 >
                   {item}
                 </Link>
@@ -246,7 +277,7 @@ const CartPage = () => {
               <div className="flex border border-gray-300 rounded-md focus-within:ring-1 focus-within:ring-green-500">
                 <input
                   type="text"
-                  placeholder="Cari Produk Pertanian..."
+                  placeholder="Tanya AgriBot: Cari bahan untuk masak Sayur Sop..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full !text-xs sm:text-sm placeholder:text-xs outline-none !border-0 focus:ring-0"
@@ -276,10 +307,26 @@ const CartPage = () => {
               </select>
             </div>
 
+            {/* Jarak */}
+            <div className="min-w-[150px] sm:min-w-[200px]">
+              <label className="block text-xs sm:text-sm font-semibold mb-2 text-[#1F1E17]">
+                Jarak Pengiriman
+              </label>
+              <select
+                value={distanceFilter}
+                onChange={(e) => setDistanceFilter(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md text-xs sm:text-xs focus-within:ring-1 focus-within:ring-green-500"
+              >
+                <option value="">Semua Jarak</option>
+                <option value="dekat">Dekat (≤ 30 KM)</option>
+                <option value="jauh">Jauh (&gt; 30 KM)</option>
+              </select>
+            </div>
+
             {/* Harga */}
             <div className="min-w-[150px] sm:min-w-[200px]">
               <label className="block text-xs sm:text-sm font-semibold mb-2 text-[#1F1E17]">
-                Harga
+                Urutkan Harga
               </label>
               <select
                 value={sortBy}
@@ -295,7 +342,7 @@ const CartPage = () => {
 
           {/* Product Grid*/}
           <div className="w-full max-w-5xl mt-6 sm:mt-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
@@ -314,9 +361,15 @@ const CartPage = () => {
                             "https://via.placeholder.com/200x200?text=Product";
                         }}
                       />
-                      <span className="absolute top-2 left-2 bg-[#EEC044] text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm">
-                        {product.category}
-                      </span>
+                      {product.isPreOrder ? (
+                        <span className="absolute top-0 left-0 bg-orange-600 text-white text-[9px] sm:text-[10px] font-bold px-2 py-1.5 rounded-br-lg shadow-lg flex items-center gap-1">
+                          🌱 Panen Besok
+                        </span>
+                      ) : (
+                        <span className="absolute top-2 left-2 bg-[#EEC044] text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm">
+                          {product.category}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -326,10 +379,18 @@ const CartPage = () => {
                       {product.name}
                     </h3>
 
+                    {/* Social Proof: Rating & Sold */}
+                    <div className="flex items-center gap-1 mt-1">
+                      <Star size={12} className="fill-amber-400 text-amber-400" />
+                      <span className="text-[10px] font-bold text-gray-700">{product.rating}</span>
+                      <span className="text-[10px] text-gray-400">|</span>
+                      <span className="text-[10px] font-medium text-gray-500 italic">Terjual {product.soldCount} {product.unit}</span>
+                    </div>
+
                     {/* Price */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-1">
                       <div>
-                        <span className="text-xs sm:text-md text-[#15803D]">
+                        <span className="text-sm sm:text-base font-bold text-[#15803D]">
                           Rp {product.price.toLocaleString("id-ID")}
                         </span>
                         <span className="text-[10px] sm:text-xs text-[#15803D] ml-0.5 sm:ml-1">
@@ -338,36 +399,45 @@ const CartPage = () => {
                       </div>
                     </div>
 
-                    <div>
-                      {/* Dari Petani */}
-                      <div className="mb-1 mt-2 w-full flex justify-center items-center bg-[#F3F3F3] border border-[#D9D9D9] rounded-sm">
-                        <p className="text-[8px] sm:text-[10px]">
-                          Dari Petani:{" "}
-                          <span className="text-[#1F1E17]">
-                            {product.farmer}
-                          </span>
-                        </p>
+                    {/* Dari Petani dengan Jarak & Lokasi */}
+                    <div 
+                      className="mb-2 mt-2 w-full p-1.5 bg-gray-50 border border-gray-200 rounded-md hover:bg-green-50/50 hover:border-[#4BAF47]/30 transition-all cursor-pointer group/farmer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/petani/1`);
+                      }}
+                    >
+                      <div className="flex items-start gap-1">
+                        <MapPin size={10} className="mt-0.5 text-[#4BAF47] shrink-0" />
+                        <div className="leading-tight text-left">
+                          <p className="text-[9px] font-bold text-[#1F1E17] line-clamp-1 group-hover/farmer:text-[#4BAF47] transition-colors">
+                            {product.farmer} • {product.location}
+                          </p>
+                          <p className={`text-[8px] font-bold ${product.distance <= 30 ? 'text-[#4BAF47]' : 'text-red-500'}`}>
+                            Jarak: {product.distance} KM {product.distance <= 30 ? '(Dekat)' : '(Jauh)'}
+                          </p>
+                        </div>
                       </div>
+                    </div>
 
-                      {/* Buy Button */}
-                      <button
-                        className="w-full bg-[#4BAF47] hover:bg-[#3E9440] text-white text-[10px] sm:text-xs py-1 font-semibold rounded-sm transition-colors duration-200 mb-1"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Handle buy now
-                          console.log(`Buying ${product.name}`);
-                        }}
-                      >
-                        Beli Sekarang
-                      </button>
+                    {/* Buy Button */}
+                    <button
+                      className="w-full bg-[#4BAF47] hover:bg-[#3E9440] text-white text-[10px] sm:text-xs py-1.5 font-bold rounded-md transition-all duration-200 mb-2 shadow-sm active:scale-95 uppercase"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle buy now
+                        console.log(`Buying ${product.name}`);
+                      }}
+                    >
+                      Beli Sekarang
+                    </button>
 
-                      {/* Dilindungi Sistem Escrow */}
-                      <div className="flex items-center justify-center gap-1">
-                        <Shield size={10} className="text-[#EEC044]" />
-                        <p className="text-[8px] sm:text-[10px] text-gray-400">
-                          Dilindungi Sistem Escrow
-                        </p>
-                      </div>
+                    {/* Dilindungi Sistem Escrow - Improved Contrast */}
+                    <div className="flex items-center justify-center gap-1.5 py-1.5 bg-green-50/50 rounded-lg border border-green-100">
+                      <Lock size={12} className="text-[#15803D] fill-[#15803D]/10" />
+                      <p className="text-[9px] font-black text-[#15803D] uppercase tracking-tighter">
+                        Dana Aman dengan Escrow
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -384,6 +454,7 @@ const CartPage = () => {
                   onClick={() => {
                     setSearchTerm("");
                     setSelectedCategory("");
+                    setDistanceFilter("");
                     setSortBy("");
                   }}
                   className="mt-3 sm:mt-4 text-[#4BAF47] hover:underline text-sm"
@@ -416,4 +487,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default ProductCatalog;

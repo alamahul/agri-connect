@@ -7,14 +7,15 @@ import logoText from "../assets/logo-text.png";
 const menuItems = [
   { name: "Beranda", path: "/", isAnchor: false, anchorId: null },
   {
-    name: "Tentang Kami",
+    name: "Tentang",
     path: "/",
     isAnchor: true,
     anchorId: "about-section",
   },
   { name: "Katalog", path: "/catalog", isAnchor: false, anchorId: null },
+  { name: "Berita", path: "/berita", isAnchor: false, anchorId: null },
   {
-    name: "Kontak Kami",
+    name: "Kontak",
     path: null,
     isAnchor: true,
     anchorId: "kontak-section",
@@ -66,7 +67,7 @@ const Navbar = ({ active, setActive }) => {
 
   const handleDashboardRedirect = () => {
     if (!user) {
-      navigate("/login");
+      navigate("/register");
     } else if (user.role === "petani") {
       navigate("/petani/dashboard");
     } else if (user.role === "pembeli") {
@@ -100,8 +101,9 @@ const Navbar = ({ active, setActive }) => {
     const isSamePage = (() => {
       if (item.name === "Beranda") return location.pathname === "/";
       if (item.name === "Katalog") return location.pathname === "/catalog";
-      if (item.name === "Tentang Kami") return location.pathname === "/";
-      if (item.name === "Kontak Kami") return location.pathname === "/";
+      if (item.name === "Berita") return location.pathname === "/berita";
+      if (item.name === "Tentang") return location.pathname === "/";
+      if (item.name === "Kontak") return location.pathname === "/";
       return false;
     })();
 
@@ -119,8 +121,14 @@ const Navbar = ({ active, setActive }) => {
         closeMobileMenu();
         return;
       }
-      // Untuk Tentang Kami di halaman beranda, scroll ke section
-      if (item.name === "Tentang Kami" && location.pathname === "/") {
+      // Untuk Berita di halaman berita, scroll ke atas
+      if (item.name === "Berita" && location.pathname === "/berita") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        closeMobileMenu();
+        return;
+      }
+      // Untuk Tentang di halaman beranda, scroll ke section
+      if (item.name === "Tentang" && location.pathname === "/") {
         const aboutElement = document.getElementById("about-section");
         if (aboutElement) {
           scrollToElementWithOffset("about-section");
@@ -128,8 +136,8 @@ const Navbar = ({ active, setActive }) => {
           return;
         }
       }
-      // Untuk Kontak Kami di halaman beranda, scroll ke section
-      if (item.name === "Kontak Kami" && location.pathname === "/") {
+      // Untuk Kontak di halaman beranda, scroll ke section
+      if (item.name === "Kontak" && location.pathname === "/") {
         const kontakElement = document.getElementById("kontak-section");
         if (kontakElement) {
           scrollToElementWithOffset("kontak-section");
@@ -144,7 +152,7 @@ const Navbar = ({ active, setActive }) => {
     closeMobileMenu();
 
     // Handle navigasi
-    if (item.name === "Kontak Kami") {
+    if (item.name === "Kontak") {
       const kontakElement = document.getElementById("kontak-section");
 
       if (kontakElement) {
@@ -158,7 +166,7 @@ const Navbar = ({ active, setActive }) => {
       return;
     }
 
-    if (item.isAnchor && item.name === "Tentang Kami") {
+    if (item.isAnchor && item.name === "Tentang") {
       const aboutElement = document.getElementById("about-section");
 
       if (aboutElement) {
@@ -189,9 +197,8 @@ const Navbar = ({ active, setActive }) => {
 
   return (
     <div
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "shadow-lg" : ""
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? "shadow-lg" : ""
+        }`}
     >
       <nav className="bg-[#24231D] px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between w-full border-b border-white/10 relative z-50">
         <div className="w-40 sm:w-60 text-white rounded-[6px] flex items-center justify-center">
@@ -217,9 +224,8 @@ const Navbar = ({ active, setActive }) => {
                         e.preventDefault();
                         handleMenuClick(item);
                       }}
-                      className={`${
-                        active === item.name ? "text-[#EEC044]" : "text-white"
-                      } hover:text-[#EEC044] transition-all duration-300 ease-in-out cursor-pointer`}
+                      className={`${active === item.name ? "text-[#EEC044]" : "text-white"
+                        } hover:text-[#EEC044] transition-all duration-300 ease-in-out cursor-pointer`}
                     >
                       {item.name}
                     </a>
@@ -249,7 +255,7 @@ const Navbar = ({ active, setActive }) => {
                   onClick={handleDashboardRedirect}
                   className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px]"
                 >
-                  Dashboard
+                  <span className="max-w-[120px] truncate">{user.fullName}</span>
                   <ArrowRight size={15} />
                 </button>
               )}
@@ -285,9 +291,8 @@ const Navbar = ({ active, setActive }) => {
                         e.preventDefault();
                         handleMenuClick(item);
                       }}
-                      className={`${
-                        active === item.name ? "text-[#EEC044]" : "text-white"
-                      } hover:text-[#EEC044] transition-all duration-300 ease-in-out block py-2`}
+                      className={`${active === item.name ? "text-[#EEC044]" : "text-white"
+                        } hover:text-[#EEC044] transition-all duration-300 ease-in-out block py-2`}
                     >
                       {item.name}
                     </a>
@@ -324,7 +329,7 @@ const Navbar = ({ active, setActive }) => {
                     }}
                     className="flex items-center justify-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-sm font-semibold px-4 py-2 rounded-[4px] w-full"
                   >
-                    Dashboard
+                    {user.fullName}
                     <ArrowRight size={15} />
                   </button>
                 )}
