@@ -1,46 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowRight, Shield } from "lucide-react";
-import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import logoText from "../assets/logo-text.png";
-import imageFarmer1 from "../assets/farmer1.png";
-import imageFarmer2 from "../assets/farmer2.jpeg";
-import imageFarmer3 from "../assets/farmer3.png";
-import linkIcon1 from "../assets/Link - icon.png";
-import linkIcon2 from "../assets/Link - icon (1).png";
-import linkIcon3 from "../assets/Link - icon (2).png";
-import linkIcon4 from "../assets/Link - icon (3).png";
-import garis from "../assets/garis.png";
-import telepon from "../assets/icon-telepon.png";
-import email from "../assets/icon-email.png";
-import map from "../assets/icon-map.png";
-import kirim from "../assets/kirim.png";
-import sponsor from "../assets/sponsor-section.png";
-import searchIcon from "../assets/search-icon.png";
+import { Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import imageFarmer1 from "./../assets/farmer1.png";
+import imageFarmer2 from "./../assets/farmer2.jpeg";
+import imageFarmer3 from "./../assets/farmer3.png";
+import sponsor from "./../assets/sponsor-section.png";
+import searchIcon from "./../assets/search-icon.png";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-const socialLinks = [
-  { icon: linkIcon1, url: "#" },
-  { icon: linkIcon2, url: "#" },
-  { icon: linkIcon3, url: "#" },
-  { icon: linkIcon4, url: "#" },
-];
-
-const kontakList = [
-  {
-    icon: telepon,
-    text: "089987789987",
-  },
-  {
-    icon: email,
-    text: "agri_connect@gmail.com",
-  },
-  {
-    icon: map,
-    text: "Jl. Raya Sukajadi No. 80\nBandung, Jawa Barat, Indonesia",
-  },
-];
-
-// Sample product data (12 items for 4x3 grid) with farmer names
 const products = [
   {
     id: 1,
@@ -77,7 +45,7 @@ const products = [
   },
   {
     id: 4,
-    name: "Wortel Import",
+    name: "Wortel Organik",
     category: "Sayuran",
     price: 22000,
     unit: "kg",
@@ -178,30 +146,36 @@ const products = [
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const [active, setActive] = useState("Katalog");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
+  const [isMobileMenuOpen] = useState(false);
+  const [setIsScrolled] = useState(false);
 
-  const menu = ["Beranda", "Tentang Kami", "Katalog", "Kontak Kami"];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
 
-  const handleDashboardRedirect = () => {
-    if (!user) {
-      navigate("/login");
-    } else if (user.role === "petani") {
-      navigate("/petani/dashboard");
-    } else if (user.role === "pembeli") {
-      navigate("/pelanggan/dashboard");
-    } else if (user.role === "admin") {
-      navigate("/admin/dashboard");
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
-  };
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   const breadcrumb = ["Beranda", "Katalog Produk"];
 
-  // Filter and sort products
   const filteredProducts = products
     .filter((product) => {
       const matchesSearch = product.name
@@ -220,136 +194,78 @@ const CartPage = () => {
       return 0;
     });
 
-  // Get unique categories for dropdown
   const categories = ["Sayuran", "Buah"];
 
   return (
     <div className="flex flex-col text-[#1F1E17] bg-white">
-      {/* Hero Section with Navbar */}
-      <div className="relative w-full flex flex-col bg-cover bg-top bg-no-repeat">
-        {/* Navbar */}
-        <nav className="bg-[#24231D] px-6 py-4 flex items-center justify-between w-full border-b border-white/10">
-          <div className="w-60 text-white rounded-[6px] flex items-center justify-center">
-            <Link to="/">
-              <img
-                src={logoText}
-                alt="logo agriconnect"
-                className="w-40 2xl:w-60 object-contain cursor-pointer"
-              />
-            </Link>
-          </div>
+      {/* Navbar */}
+      <Navbar active={active} setActive={setActive} />
 
-          <div>
-            <div className="flex justify-center items-center gap-16">
-              <div>
-                <ul className="text-white text-[12px] 2xl:text-base flex gap-8">
-                  {menu.map((item) => (
-                    <li key={item}>
-                      <a
-                        href="#"
-                        onClick={() => setActive(item)}
-                        className={`${
-                          active === item ? "text-[#EEC044]" : "text-white"
-                        } hover:text-[#EEC044] transition-all duration-300 ease-in-out`}
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+      {/* Breadcrumb & Title*/}
+      <div className="flex flex-col justify-center px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto w-full py-6 sm:py-8 2xl:py-0 2xl:pt-8">
+          <div className="flex items-center gap-2 text-xs sm:text-sm mb-3 sm:mb-4">
+            {breadcrumb.map((item, index) => (
+              <div key={index} className="flex items-center">
+                {index > 0 && <span className="mx-1 sm:mx-2">/</span>}
+                <Link
+                  to={index === 0 ? "/" : "#"}
+                  className={`${
+                    index === breadcrumb.length - 1
+                      ? "text-[#EEC044]"
+                      : "hover:text-[#EEC044]"
+                  } transition text-xs sm:text-sm`}
+                >
+                  {item}
+                </Link>
               </div>
-
-              <div className="flex gap-[17px]">
-                {!user ? (
-                  <>
-                    <button
-                      onClick={handleDashboardRedirect}
-                      className="flex items-center gap-2 bg-[#4BAF47] hover:bg-[#3E9440] text-white text-[12px] 2xl:text-sm font-semibold px-4 py-2 rounded-[4px]"
-                    >
-                      Gabung sebagai Pembeli
-                    </button>
-                    <button
-                      onClick={handleDashboardRedirect}
-                      className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-[12px] 2xl:text-sm font-semibold px-4 py-2 rounded-[4px]"
-                    >
-                      Gabung sebagai Petani
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    onClick={handleDashboardRedirect}
-                    className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-[12px] 2xl:text-sm font-semibold px-4 py-2 rounded-[4px]"
-                  >
-                    Dashboard
-                    <ArrowRight size={15} />
-                  </button>
-                )}
-              </div>
-            </div>
+            ))}
           </div>
-        </nav>
 
-        {/* Breadcrumb & Title */}
-        <div className="flex flex-col justify-center px-6">
-          <div className="max-w-6xl mx-auto w-full py-8 2xl:py-0 2xl:pt-8">
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-sm mb-4">
-              {breadcrumb.map((item, index) => (
-                <div key={index} className="flex items-center">
-                  {index > 0 && <span className="mx-2">/</span>}
-                  <Link
-                    to={index === 0 ? "/" : "#"}
-                    className={`${
-                      index === breadcrumb.length - 1
-                        ? "text-[#EEC044]"
-                        : "hover:text-[#EEC044]"
-                    } transition`}
-                  >
-                    {item}
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* Title */}
-            <h1 className="text-4xl font-extrabold mb-4">Katalog Produk</h1>
-            <p className=" text-sm max-w-2xl">
-              Temukan berbagai sayur dan buah segar pilihan terbaik untuk
-              kebutuhan Anda.
-            </p>
-          </div>
+          {/* Title */}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 sm:mb-4">
+            Katalog Produk
+          </h1>
+          <p className="text-xs sm:text-sm max-w-2xl">
+            Temukan berbagai sayur dan buah segar pilihan terbaik untuk
+            kebutuhan Anda.
+          </p>
         </div>
       </div>
 
       {/* Cart Content */}
-      <div className="max-w-6xl mx-auto w-full px-6 2xl:mt-2">
-        <div className="w-full p-6 flex flex-col items-center">
-          <div className="flex flex-wrap items-end gap-3 w-full max-w-5xl">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 2xl:mt-2">
+        <div className="w-full p-4 sm:p-6 flex flex-col items-center">
+          {/* Filters */}
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-end gap-3 w-full max-w-5xl">
             {/* Search */}
-            <div className="flex-1 min-w-[300px]">
+            <div className="flex-1 min-w-[200px] sm:min-w-[300px]">
+              <label className="block text-xs sm:text-sm font-semibold mb-2 text-[#1F1E17]">
+                Cari Produk
+              </label>
               <div className="flex border border-gray-300 rounded-md focus-within:ring-1 focus-within:ring-green-500">
                 <input
                   type="text"
                   placeholder="Cari Produk Pertanian..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full p-2 !text-xs placeholder:text-xs outline-none !border-0 focus:ring-0"
+                  className="w-full !text-xs sm:text-sm placeholder:text-xs outline-none !border-0 focus:ring-0"
                 />
                 <button className="bg-[#4BAF47] hover:bg-[#3E9440] px-2 m-1 flex items-center justify-center rounded-sm">
-                  <img src={searchIcon} alt="search" className="w-4" />
+                  <img src={searchIcon} alt="search" className="w-3 sm:w-4" />
                 </button>
               </div>
             </div>
 
             {/* Kategori */}
-            <div className="min-w-[200px]">
-              <label className="block text-sm font-semibold mb-2 text-[#1F1E17]">
+            <div className="min-w-[150px] sm:min-w-[200px]">
+              <label className="block text-xs sm:text-sm font-semibold mb-2 text-[#1F1E17]">
                 Kategori
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md text-xs focus-within:ring-1 focus-within:ring-green-500"
+                className="w-full p-2 border border-gray-300 rounded-md !text-xs placeholder:text-xs sm:text-xs focus-within:ring-1 focus-within:ring-green-500"
               >
                 <option value="">Semua Kategori</option>
                 {categories.map((cat) => (
@@ -361,12 +277,14 @@ const CartPage = () => {
             </div>
 
             {/* Harga */}
-            <div className="min-w-[200px]">
-              <label className="block text-sm font-semibold mb-2">Harga</label>
+            <div className="min-w-[150px] sm:min-w-[200px]">
+              <label className="block text-xs sm:text-sm font-semibold mb-2 text-[#1F1E17]">
+                Harga
+              </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md text-xs focus-within:ring-1 focus-within:ring-green-500"
+                className="w-full p-2 border border-gray-300 rounded-md text-xs sm:text-xs focus-within:ring-1 focus-within:ring-green-500"
               >
                 <option value="">Default</option>
                 <option value="termurah">Termurah</option>
@@ -375,41 +293,46 @@ const CartPage = () => {
             </div>
           </div>
 
-          {/* Product Grid - 4x3 Cards */}
-          <div className="w-full max-w-5xl mt-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {/* Product Grid*/}
+          <div className="w-full max-w-5xl mt-6 sm:mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group"
+                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer"
+                  onClick={() => navigate(`/product/${product.id}`)}
                 >
-                  {/* Product Image with padding left, right, and top */}
+                  {/* Product Image */}
                   <div className="pt-2 px-2">
-                    <div className="relative h-48 overflow-hidden bg-gray-100 rounded-sm">
+                    <div className="relative h-36 sm:h-40 md:h-44 lg:h-48 overflow-hidden bg-gray-100 rounded-sm">
                       <img
                         src={product.image}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://via.placeholder.com/200x200?text=Product";
+                        }}
                       />
-                      <span className="absolute top-2 left-2 bg-[#EEC044] text-white text-xs font-semibold px-2 py-1 rounded">
+                      <span className="absolute top-2 left-2 bg-[#EEC044] text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm">
                         {product.category}
                       </span>
                     </div>
                   </div>
 
                   {/* Product Info */}
-                  <div className="pb-2 pt-1 px-2">
-                    <h3 className="font-bold text-sm text-[#1F1E17] line-clamp-1">
+                  <div className="pb-2 pt-2 sm:pt-3 px-2">
+                    <h3 className="font-bold text-xs sm:text-sm text-[#1F1E17] line-clamp-1">
                       {product.name}
                     </h3>
 
                     {/* Price */}
                     <div className="flex items-center justify-between">
                       <div>
-                        <span className="text-md text-[#15803D]">
+                        <span className="text-xs sm:text-md text-[#15803D]">
                           Rp {product.price.toLocaleString("id-ID")}
                         </span>
-                        <span className="text-xs text-[#15803D] ml-1">
+                        <span className="text-[10px] sm:text-xs text-[#15803D] ml-0.5 sm:ml-1">
                           /{product.unit}
                         </span>
                       </div>
@@ -418,7 +341,7 @@ const CartPage = () => {
                     <div>
                       {/* Dari Petani */}
                       <div className="mb-1 mt-2 w-full flex justify-center items-center bg-[#F3F3F3] border border-[#D9D9D9] rounded-sm">
-                        <p className="text-[10px]">
+                        <p className="text-[8px] sm:text-[10px]">
                           Dari Petani:{" "}
                           <span className="text-[#1F1E17]">
                             {product.farmer}
@@ -427,14 +350,21 @@ const CartPage = () => {
                       </div>
 
                       {/* Buy Button */}
-                      <button className="w-full bg-[#4BAF47] hover:bg-[#3E9440] text-white text-xs py-1 font-semibold rounded-sm transition-colors duration-200 mb-1">
+                      <button
+                        className="w-full bg-[#4BAF47] hover:bg-[#3E9440] text-white text-[10px] sm:text-xs py-1 font-semibold rounded-sm transition-colors duration-200 mb-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Handle buy now
+                          console.log(`Buying ${product.name}`);
+                        }}
+                      >
                         Beli Sekarang
                       </button>
 
                       {/* Dilindungi Sistem Escrow */}
                       <div className="flex items-center justify-center gap-1">
-                        <Shield size={12} className="text-[#EEC044]" />
-                        <p className="text-[10px] text-gray-400">
+                        <Shield size={10} className="text-[#EEC044]" />
+                        <p className="text-[8px] sm:text-[10px] text-gray-400">
                           Dilindungi Sistem Escrow
                         </p>
                       </div>
@@ -446,8 +376,8 @@ const CartPage = () => {
 
             {/* Empty State */}
             {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">
+              <div className="text-center py-8 sm:py-12">
+                <p className="text-gray-500 text-sm sm:text-base">
                   Tidak ada produk yang ditemukan
                 </p>
                 <button
@@ -456,7 +386,7 @@ const CartPage = () => {
                     setSelectedCategory("");
                     setSortBy("");
                   }}
-                  className="mt-4 text-[#4BAF47] hover:underline"
+                  className="mt-3 sm:mt-4 text-[#4BAF47] hover:underline text-sm"
                 >
                   Reset Filter
                 </button>
@@ -466,83 +396,21 @@ const CartPage = () => {
         </div>
       </div>
 
-      <div className="mt-20">
-        <img src={sponsor} alt="sponsor" />
+      {/* Sponsor Section */}
+      <div className="mt-12 sm:mt-20">
+        <img
+          src={sponsor}
+          alt="sponsor"
+          className="w-full"
+          onError={(e) => {
+            e.target.style.display = "none";
+          }}
+        />
       </div>
 
       {/* Footer */}
-      <div>
-        <footer className="flex justify-around bottom-0 bg-[#24231D] text-center py-24 text-[#A5A49A] text-xs flex-wrap gap-8">
-          <div className="text-start">
-            <img src={logoText} alt="logo" className="w-[11rem]" />
-            <p className="w-[12rem] mt-2 leading-loose">
-              Proyek ini dikembangkan khusus sebagai inovasi digital dalam ajang
-              TECHSOFT 2026.
-            </p>
-            <div className="mt-3">
-              <ul className="flex gap-2">
-                {socialLinks.map((item, index) => (
-                  <li key={index}>
-                    <a
-                      href={item.url}
-                      className="block hover:scale-110 transition"
-                    >
-                      <img
-                        src={item.icon}
-                        alt={`icon-${index}`}
-                        className="w-8 h-8"
-                      />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="text-start w-52">
-            <div>
-              <p className="text-lg font-bold text-white">Kontak</p>
-            </div>
-            <div>
-              <img src={garis} className="w-14" alt="garis" />
-            </div>
-            <ul>
-              {kontakList.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-2 mb-3 text-white"
-                >
-                  <img src={item.icon} className="object-contain w-3" alt="" />
-                  <p className="text-xs whitespace-pre-line">{item.text}</p>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Masukkan Alamat Email"
-                className="!border-0 !rounded-r-none rounded-l-lg !text-[10px] placeholder:text-[10px] placeholder:font-semibold p-2 flex-1"
-              />
-              <div className="bg-[#4BAF47] hover:bg-[#3E9440] p-3 flex justify-center items-center rounded-r-lg cursor-pointer">
-                <a href="#">
-                  <img src={kirim} className="w-3" alt="kirim" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-
-      <div>
-        <footer className="flex justify-around bottom-0 bg-[#1F1E17] text-center py-6 text-[#A5A49A] text-xs flex-wrap gap-4">
-          <p>© All Copyright 2026 by CuanDev</p>
-          <p className="flex gap-3">
-            <span>Terms of Use</span>
-            <span>|</span>
-            <span>Privacy Policy</span>
-          </p>
-        </footer>
+      <div id="kontak-section" className="">
+        <Footer />
       </div>
     </div>
   );
