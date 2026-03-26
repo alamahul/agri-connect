@@ -198,7 +198,7 @@ const CustomerOrders = () => {
       {showTrackingModal && selectedOrder && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md" onClick={() => setShowTrackingModal(false)}></div>
-          <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-lg relative z-10 shadow-2xl animate-in zoom-in-95 duration-300 overflow-hidden">
+          <div className="bg-white rounded-[2rem] p-6 md:p-8 w-full max-w-lg relative z-10 shadow-2xl animate-in zoom-in-95 duration-300 overflow-y-auto max-h-[95vh] custom-scrollbar">
             <button onClick={() => setShowTrackingModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-transform hover:rotate-90">
               <X size={24} />
             </button>
@@ -269,7 +269,7 @@ const CustomerOrders = () => {
       {showConfirmModal && selectedOrder && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm" onClick={() => setShowConfirmModal(false)}></div>
-          <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-md relative z-10 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+          <div className="bg-white rounded-[2rem] p-8 w-full max-w-md relative z-10 shadow-2xl animate-in fade-in zoom-in-95 duration-300 overflow-y-auto max-h-[95vh] custom-scrollbar">
             <div className="text-center">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 ring-8 ring-green-50">
                 <ShieldCheck size={40} className="text-green-600" />
@@ -313,7 +313,7 @@ const CustomerOrders = () => {
       {showReviewModal && selectedOrder && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md" onClick={() => setShowReviewModal(false)}></div>
-          <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-lg relative z-10 shadow-2xl animate-in slide-in-from-bottom-10 duration-500">
+          <div className="bg-white rounded-[2rem] p-6 md:p-8 w-full max-w-lg relative z-10 shadow-2xl animate-in slide-in-from-bottom-10 duration-500 overflow-y-auto max-h-[95vh] custom-scrollbar">
             <button onClick={() => setShowReviewModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
               <X size={24} />
             </button>
