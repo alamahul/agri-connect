@@ -16,7 +16,16 @@ import {
    Calendar,
    AlertCircle,
    TrendingUpDown as TrendingIcon,
-   Bot
+   Bot,
+   X,
+   ShieldCheck,
+   CheckCircle2,
+   ArrowRight,
+   Mic,
+   Banknote,
+   Square,
+   RotateCw,
+   Sparkles
 } from 'lucide-react';
 import {
    LineChart,
@@ -47,13 +56,42 @@ const FarmerDashboard = () => {
    ]);
 
    const [isSpeaking, setIsSpeaking] = useState(false);
+   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+   const [showPriceUpdateModal, setShowPriceUpdateModal] = useState(false);
+   const [isWithdrawing, setIsWithdrawing] = useState(false);
+   const [currentAgriPrice, setCurrentAgriPrice] = useState(12000);
+   const [withdrawStep, setWithdrawStep] = useState(1); // 1: Amount, 2: PIN/Security, 3: Success
+   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
    const handleSpeak = () => {
-      setIsSpeaking(true);
-      // Simple TTS simulation
-      const speech = "Pak Budi, hari ini ada 3 pesanan baru yang harus dikirim, dan dana masuk sebesar satu juta delapan ratus ribu rupiah.";
-      console.log("Speaking: ", speech);
-      setTimeout(() => setIsSpeaking(false), 4000);
+      if (isSpeaking) {
+         window.speechSynthesis.cancel();
+         setIsSpeaking(false);
+         return;
+      }
+
+      if ('speechSynthesis' in window) {
+         window.speechSynthesis.cancel();
+         setIsSpeaking(true);
+         
+         const text = `
+            Halo Pak Budi, berikut adalah laporan dashboard Anda hari ini. 
+            Tugas hari ini: Anda memiliki ${tasks.length} tugas yang perlu diselesaikan segera, termasuk kemasan produk dan jadwal panen wortel. 
+            Pantauan harga pasar: Harga tomat ceri Anda stabil di angka Rp ${currentAgriPrice.toLocaleString()} per kilogram, ini jauh lebih baik dibanding harga tengkulak. 
+            Performa lahan: Lahan Anda mendapatkan nilai rata-rata 4,9 bintang dengan tingkat kesegaran panen mencapai 98 persen. 
+            Notifikasi: Ada 2 pesanan baru yang baru saja masuk dan satu pemberitahuan pencairan dana yang berhasil. 
+            Tetap semangat bertani bersama Agrikonek Pak Budi!
+         `;
+         
+         const speech = new SpeechSynthesisUtterance(text);
+         speech.lang = 'id-ID';
+         speech.rate = 1;
+         speech.onend = () => setIsSpeaking(false);
+         window.speechSynthesis.speak(speech);
+      } else {
+         setIsSpeaking(true);
+         setTimeout(() => setIsSpeaking(false), 3000);
+      }
    };
 
    const completeTask = (id) => {
@@ -83,12 +121,12 @@ const FarmerDashboard = () => {
             ${isSpeaking ? 'bg-amber-400 text-neutral-800 scale-105' : 'bg-neutral-800 text-white hover:bg-black'}
           `}
             >
-               <div className={`p-2 rounded-[6px] transition-colors ${isSpeaking ? 'bg-white/50' : 'bg-white/10'}`}>
-                  <Volume2 size={24} className={isSpeaking ? 'animate-pulse' : ''} />
+               <div className={`p-2 rounded-[6px] transition-colors ${isSpeaking ? 'bg-red-500 text-white' : 'bg-white/10'}`}>
+                  {isSpeaking ? <Square size={24} fill="white" /> : <Volume2 size={24} />}
                </div>
                <div className="text-left leading-none">
                   <span className="block text-[10px] mb-1 opacity-60">AgriVoice</span>
-                  {isSpeaking ? 'Sedang Berbicara...' : 'Dengar Ringkasan'}
+                  {isSpeaking ? 'Hentikan Suara' : 'Dengar Ringkasan'}
                </div>
             </button>
          </div>
@@ -109,7 +147,13 @@ const FarmerDashboard = () => {
                      </div>
                   </div>
                   <div className="mt-12 flex items-center justify-between gap-4">
-                     <button className="flex-1 bg-white hover:bg-emerald-50 text-emerald-700 py-5 rounded-[6px] font-black uppercase tracking-widest text-xs shadow-xl transition-all active:scale-95">
+                     <button 
+                        onClick={() => {
+                           setWithdrawStep(1);
+                           setShowWithdrawModal(true);
+                        }}
+                        className="flex-1 bg-white hover:bg-emerald-50 text-emerald-700 py-5 rounded-[6px] font-black uppercase tracking-widest text-xs shadow-xl transition-all active:scale-95"
+                     >
                         Tarik Dana ke Rekening
                      </button>
                      <div className="w-14 h-14 bg-emerald-500/50 backdrop-blur-sm rounded-[6px] flex items-center justify-center border border-white/20">
@@ -201,8 +245,8 @@ const FarmerDashboard = () => {
                      </div>
                      <div className="flex gap-4">
                         <div className="text-right">
-                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Harga AgriConnect</p>
-                           <p className="text-lg font-black text-emerald-600 tracking-tighter">Rp 12.000/Kg</p>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Harga AgriConnect</p>
+                        <p className="text-lg font-black text-emerald-600 tracking-tighter">Rp {currentAgriPrice.toLocaleString()}/Kg</p>
                         </div>
                         <div className="border-l border-gray-100 pl-4 text-right">
                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Harga Tengkulak</p>
@@ -252,13 +296,31 @@ const FarmerDashboard = () => {
                         <Bot size={28} className="text-neutral-900" />
                      </div>
                      <div>
-                        <p className="text-xs font-bold text-white mb-1 uppercase tracking-tight">AI AgriBot Insight</p>
-                        <p className="text-xs text-gray-400 leading-relaxed font-medium">
-                           "Pak Budi, harga cabai di pasar pusat sedang naik tajam. Disarankan Anda memperbarui harga di Gudang Produk menjadi <span className="text-amber-400 font-black">Rp 40.000/Kg</span> untuk keuntungan maksimal."
+                        <p className="text-xs font-bold text-white mb-1 uppercase tracking-tight">AI AgriBot Insight</p>                        <p className="text-xs text-gray-400 leading-relaxed font-medium">
+                           {isAnalyzing ? (
+                              <span className="animate-pulse italic">Sedang menganalisis tren pasar pusat, cuaca lokal, dan permintaan pelanggan...</span>
+                           ) : (
+                              `"Pak Budi, harga cabai di pasar pusat sedang naik tajam. Disarankan Anda memperbarui harga di Gudang Produk menjadi Rp 40.000/Kg untuk keuntungan maksimal."`
+                           )}
                         </p>
                      </div>
-                     <button className="sm:ml-auto w-full sm:w-auto px-6 py-3 bg-amber-400 hover:bg-amber-500 text-neutral-900 rounded-[6px] font-black uppercase tracking-widest text-[10px] transition-all whitespace-nowrap">
-                        Update Harga
+                     <button 
+                        onClick={() => {
+                           setIsAnalyzing(true);
+                           setTimeout(() => {
+                              setIsAnalyzing(false);
+                              setShowPriceUpdateModal(true);
+                           }, 2500);
+                        }}
+                        disabled={isAnalyzing}
+                        className="sm:ml-auto w-full sm:w-auto px-6 py-3 bg-amber-400 hover:bg-amber-500 text-neutral-900 rounded-[6px] font-black uppercase tracking-widest text-[10px] transition-all whitespace-nowrap active:scale-95 flex items-center justify-center gap-2"
+                     >
+                        {isAnalyzing ? (
+                           <RotateCw size={14} className="animate-spin" />
+                        ) : (
+                           <Sparkles size={14} />
+                        )}
+                        {isAnalyzing ? 'Menganalisis...' : 'Analisis Ulang Insight'}
                      </button>
                   </div>
                </div>
@@ -336,13 +398,195 @@ const FarmerDashboard = () => {
             </div>
          </section>
 
+         {/* --- INTERACTIVE MODALS --- */}
+
+         {/* 1. Tarik Dana Modal */}
+         {showWithdrawModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+               <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowWithdrawModal(false)}></div>
+               <div className="bg-white rounded-[6px] p-10 w-full max-w-sm relative z-10 shadow-2xl animate-in zoom-in-95 duration-500 overflow-hidden">
+                  
+                  {withdrawStep === 1 && (
+                     <div className="animate-in slide-in-from-right-5 duration-300">
+                        <div className="mb-8">
+                           <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-4">
+                              <Banknote size={32} />
+                           </div>
+                           <h3 className="text-2xl font-black text-neutral-900 uppercase leading-tight">Penarikan Dana</h3>
+                           <p className="text-xs text-gray-400 font-medium mt-1 uppercase tracking-tight">Dana akan dikirim ke rekening terdaftar Anda.</p>
+                        </div>
+
+                        <div className="space-y-6">
+                           <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Tujuan Transfer</p>
+                              <div className="flex items-center gap-3">
+                                 <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" className="w-6" alt="BCA" />
+                                 </div>
+                                 <div>
+                                    <p className="text-xs font-black text-gray-900 uppercase">Bank BCA • 8821xxxx</p>
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase">A/N BUDI SETIAWAN</p>
+                                 </div>
+                              </div>
+                           </div>
+                           
+                           <div className="space-y-2">
+                              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Jumlah Tarik</label>
+                              <div className="relative">
+                                 <span className="absolute left-6 top-1/2 -translate-y-1/2 font-black text-gray-400">Rp</span>
+                                 <input defaultValue="2.450.000" readOnly className="w-full pl-14 pr-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-black focus:ring-0 outline-none" />
+                              </div>
+                           </div>
+
+                           <button 
+                              onClick={() => setWithdrawStep(2)}
+                              className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all"
+                           >
+                              Konfirmasi Penarikan
+                           </button>
+                        </div>
+                     </div>
+                  )}
+
+                  {withdrawStep === 2 && (
+                     <div className="animate-in slide-in-from-right-5 duration-300">
+                        <button onClick={() => setWithdrawStep(1)} className="mb-6 text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1 hover:text-neutral-900">
+                           <ChevronRight size={14} className="rotate-180" /> Kembali
+                        </button>
+                        <div className="mb-8">
+                           <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-4">
+                              <ShieldCheck size={32} />
+                           </div>
+                           <h3 className="text-2xl font-black text-neutral-900 uppercase leading-tight">Keamanan</h3>
+                           <p className="text-xs text-gray-400 font-medium mt-1 uppercase tracking-tight">Masukan PIN AgriConnect untuk verifikasi.</p>
+                        </div>
+
+                        <div className="space-y-6">
+                           <div className="flex justify-between gap-2">
+                              {[1, 2, 3, 4, 5, 6].map(i => (
+                                 <div key={i} className="flex-1 h-14 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-neutral-300 rounded-full"></div>
+                                 </div>
+                              ))}
+                           </div>
+
+                           <button 
+                              onClick={() => {
+                                 setIsWithdrawing(true);
+                                 setTimeout(() => {
+                                    setIsWithdrawing(false);
+                                    setWithdrawStep(3);
+                                 }, 2000);
+                              }}
+                              disabled={isWithdrawing}
+                              className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3"
+                           >
+                              {isWithdrawing ? (
+                                 <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                              ) : 'Lanjutkan'}
+                           </button>
+                        </div>
+                     </div>
+                  )}
+
+                  {withdrawStep === 3 && (
+                     <div className="animate-in zoom-in-95 duration-500 text-center py-4">
+                        <div className="w-24 h-24 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-100">
+                           <CheckCircle2 size={48} />
+                        </div>
+                        <h3 className="text-2xl font-black text-neutral-900 uppercase tracking-tight mb-2">Penarikan Berhasil!</h3>
+                        <p className="text-xs text-gray-400 font-medium px-4 leading-relaxed italic mb-8">
+                           Dana sedang dikirim ke rekening BCA Anda. Mohon cek mutasi dalam 5-10 menit ke depan.
+                        </p>
+                        <button 
+                           onClick={() => setShowWithdrawModal(false)}
+                           className="w-full py-4 bg-gray-50 text-neutral-900 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-100"
+                        >
+                           Selesai
+                        </button>
+                     </div>
+                  )}
+
+                  <button 
+                     onClick={() => setShowWithdrawModal(false)}
+                     className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-xl transition-all"
+                  >
+                     <X size={20} className="text-gray-400" />
+                  </button>
+               </div>
+            </div>
+         )}
+
+         {/* 2. Update Harga AI Modal */}
+         {showPriceUpdateModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+               <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowPriceUpdateModal(false)}></div>
+               <div className="bg-white rounded-[6px] p-10 w-full max-w-sm relative z-10 shadow-2xl animate-in zoom-in-95 duration-500">
+                  <div className="mb-8">
+                     <div className="w-16 h-16 bg-amber-400 text-neutral-900 rounded-2xl flex items-center justify-center mb-4">
+                        <Bot size={32} />
+                     </div>
+                     <h3 className="text-2xl font-black text-neutral-900 uppercase">Input AI Insight</h3>
+                     <p className="text-xs text-gray-400 font-medium mt-1">Sesuaikan harga komoditas berdasarkan saran AgriBot.</p>
+                  </div>
+
+                  <div className="space-y-6">
+                     <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div className="flex justify-between items-center mb-4">
+                           <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Produk</span>
+                           <span className="text-xs font-black text-neutral-900">Cabai Rawit Merah</span>
+                        </div>
+                        <div className="flex gap-4">
+                           <div className="flex-1">
+                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Harga Saat Ini</p>
+                              <p className="text-sm font-black text-gray-600 line-through">Rp {currentAgriPrice.toLocaleString()}</p>
+                           </div>
+                           <div className="flex items-center text-amber-500">
+                              <ArrowRight size={20} />
+                           </div>
+                           <div className="flex-1">
+                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 text-amber-600">Saran AI</p>
+                              <p className="text-lg font-black text-neutral-900 tracking-tighter">Rp 40.000</p>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div className="bg-amber-50/50 p-4 rounded-xl border border-amber-100">
+                        <p className="text-[10px] text-amber-700 font-bold leading-relaxed italic">
+                           "Potensi kenaikan keuntungan sebesar +25% karena stok di pasar induk sedang menipis pagi ini."
+                        </p>
+                     </div>
+
+                     <div className="flex flex-col gap-3 pt-4">
+                        <button 
+                           onClick={() => {
+                              setCurrentAgriPrice(40000);
+                              setShowPriceUpdateModal(false);
+                           }}
+                           className="w-full py-5 bg-neutral-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-all"
+                        >
+                           Terapkan Harga Baru
+                        </button>
+                        <button 
+                           onClick={() => setShowPriceUpdateModal(false)}
+                           className="w-full py-4 bg-gray-100 text-gray-400 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-200 transition-all"
+                        >
+                           Mungkin Nanti
+                        </button>
+                     </div>
+                  </div>
+
+                  <button 
+                     onClick={() => setShowPriceUpdateModal(false)}
+                     className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-xl transition-all"
+                  >
+                     <X size={20} className="text-gray-400" />
+                  </button>
+               </div>
+            </div>
+         )}
       </div>
    );
 };
 
 export default FarmerDashboard;
-
-
-
-
-

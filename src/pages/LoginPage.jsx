@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Eye,
   EyeOff,
@@ -23,6 +24,12 @@ const LoginPage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pin, setPin] = useState(['', '', '', '', '', '']);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const queryParams = new URLSearchParams(location.search);
+  const redirectPath = queryParams.get('redirect');
 
   const handleRoleChange = (newRole) => {
     setRole(newRole);
@@ -41,10 +48,26 @@ const LoginPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (role === 'petani') navigate('/petani/dashboard');
-    else navigate('/pelanggan/dashboard');
+    setIsLoading(true);
+    
+    try {
+      // Mock login - using the same dummy account for demo
+      const email = role === 'petani' ? 'petani@agriconnect.com' : 'pembeli@agriconnect.com';
+      await login(email, 'password');
+      
+      if (redirectPath) {
+        navigate(redirectPath);
+      } else {
+        if (role === 'petani') navigate('/petani/dashboard');
+        else navigate('/pelanggan/dashboard');
+      }
+    } catch (error) {
+      alert('Login gagal. Silakan coba lagi.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderPelangganContent = () => (
@@ -80,9 +103,10 @@ const LoginPage = () => {
       <div className="flex flex-col gap-3">
         <button
           type="submit"
-          className="w-full bg-green-600 text-white font-black py-4 rounded-[6px] text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 group"
+          disabled={isLoading}
+          className="w-full bg-green-600 text-white font-black py-4 rounded-[6px] text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Masuk via WhatsApp <MessageCircle size={18} className="group-hover:translate-x-1 transition-transform" />
+          {isLoading ? 'Sedang Masuk...' : 'Masuk via WhatsApp'} <MessageCircle size={18} className="group-hover:translate-x-1 transition-transform" />
         </button>
         <button
           type="button"

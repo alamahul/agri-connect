@@ -1,12 +1,12 @@
 import { useNavigate, Link } from "react-router-dom";
-import { Shield, Star, ShoppingCart, CreditCard } from "lucide-react";
-import { useState, useEffect } from "react";
-import imageFarmer1 from "./../assets/farmer1.png";
-import imageFarmer3 from "./../assets/farmer3.png";
+import { Shield, Star, ShoppingCart, CreditCard, User, MapPin, Leaf, Calendar, Zap, Sparkles, Lock, Bot } from "lucide-react";
+import { useState } from "react";
 import sponsor from "./../assets/sponsor-section.png";
-import tomatoPlaceholder from "./../assets/farmer2.jpeg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import imageFarmer1 from "./../assets/farmer1.png";
+import imageFarmer2 from "./../assets/farmer2.jpeg";
+import imageFarmer3 from "./../assets/farmer3.png";
 
 const otherProducts = [
   {
@@ -16,7 +16,7 @@ const otherProducts = [
     price: 35000,
     unit: "kg",
     rating: 4.5,
-    image: imageFarmer1,
+    image: "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     farmer: "Pak Suparman",
   },
   {
@@ -26,7 +26,7 @@ const otherProducts = [
     price: 18000,
     unit: "kg",
     rating: 4.3,
-    image: imageFarmer3,
+    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     farmer: "Pak Budi",
   },
   {
@@ -36,7 +36,7 @@ const otherProducts = [
     price: 22000,
     unit: "kg",
     rating: 4.6,
-    image: imageFarmer1,
+    image: "https://images.unsplash.com/photo-1663441041574-274dc77d17bb?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     farmer: "Bu Dewi",
   },
   {
@@ -46,7 +46,7 @@ const otherProducts = [
     price: 38000,
     unit: "kg",
     rating: 4.4,
-    image: imageFarmer3,
+    image: "https://images.unsplash.com/photo-1636277009869-b182eb55347d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     farmer: "Bu Ratna",
   },
 ];
@@ -61,52 +61,50 @@ const ProductDetailPage = () => {
   const [reviewEmail, setReviewEmail] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [saveInfo, setSaveInfo] = useState(false);
-  const [isMobileMenuOpen] = useState(false);
-  const [setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen]);
 
   const product = {
     id: 1,
-    name: "Tomat",
+    name: "Tomat Organik Premium",
     price: 15000,
     unit: "kg",
-    rating: 4.5,
-    reviewCount: 1,
-    image: tomatoPlaceholder,
-    description:
-      "Alqiam hendrerit a augue insuscipit. Etiam aliquam massa quis des mauris commodo venenatis ligula commodo leez sed blandit convallis dignissim onec vel pellentesque neque.",
-    fullDescription: `Lorem ipsum dolor sit amet sectetur adipiscin elit cras feulat antesed ces condimentum viverra duis autem nim convallis id diam vitae duis eget dictum erosin dictum sem. Vivamus sed molestie sapien aliquam et facilisis arcu dult molestie augue suspendisse sodales tortor nunced quis cto ligula posuere cursus keuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecated cupidatat non proident.
-      Aliquam et facilisis arcuet olestie augue. Suspendisse sodales tortor nunc quis auctor ligula posuere cursus duis aute irure dolor in reprehenderit in voluptate velit esse cill doloreeu fugiat nulla pariatur excepteur sint occaecated cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Vivaus sed dellly molestie sapien. Aliquam et facilisis arcuet molestie augue.`,
-    farmer: "Pak Tani",
+    rating: 4.8,
+    reviewCount: 12,
+    image: "https://plus.unsplash.com/premium_photo-1770609621373-3e35cdeaf42c?q=80&w=503&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "Tomat organik pilihan yang ditanam dengan cinta oleh petani lokal Ciwidey. Memiliki tekstur padat, rasa manis-asam seimbang, dan kaya akan vitamin C serta Lycopene.",
+    farmer: {
+      name: "Bu Siti",
+      group: "Kelompok Tani Mekar Sari",
+      location: "Ciwidey, Kab. Bandung",
+      distance: 15,
+      avatar: imageFarmer2
+    },
+    status: {
+      type: "preorder",
+      label: "Panen Besok",
+      description: "Sedang Ditanam (Estimasi Panen & Pengiriman: Besok Pagi jam 06.00)"
+    },
+    specs: {
+      method: "Organik (Tanpa Pestisida)",
+      altitude: "1.200 mdpl",
+      grade: "Grade A (Sortir Ketat)",
+      aiTip: "AgriBot menyarankan simpan di suhu kulkas 4°C agar tetap segar hingga 7 hari."
+    }
   };
 
   const reviews = [
     {
       id: 1,
-      name: "Kevin Martin",
-      date: "Jul 10, 2022",
+      name: "Budi Santoso",
+      date: "24 Mar 2024",
       rating: 5,
-      comment:
-        "Tomatnya berkualitas bagus dan terlihat segar seperti baru dipanen. Rasanya manis dengan sedikit asam yang pas. Sangat cocok digunakan untuk masakan, salad, maupun jus.",
+      comment: "Luar biasa! Fitur Panen Besok benar-benar bikin beda. Tomat sampai di rumah masih ada titik embunnya, seger banget seperti metik sendiri di kebun Bu Siti.",
+    },
+    {
+      id: 2,
+      name: "Ibu Retno",
+      date: "22 Mar 2024",
+      rating: 4,
+      comment: "Baru kali ini belanja sayur online tapi tahu persis siapa petaninya. Terasa lebih tenang dan dukung ekonomi lokal. Kualitas tomatnya juga Grade A, jempol!",
     },
   ];
 
@@ -187,11 +185,10 @@ const ProductDetailPage = () => {
                   {index > 0 && <span className="mx-1 sm:mx-2">/</span>}
                   <Link
                     to={index === 0 ? "/" : "#"}
-                    className={`${
-                      index === breadcrumb.length - 1
-                        ? "text-[#EEC044]"
-                        : "hover:text-[#EEC044]"
-                    } transition text-xs sm:text-sm`}
+                    className={`${index === breadcrumb.length - 1
+                      ? "text-[#EEC044]"
+                      : "hover:text-[#EEC044]"
+                      } transition text-xs sm:text-sm`}
                   >
                     {item}
                   </Link>
@@ -235,14 +232,71 @@ const ProductDetailPage = () => {
                 Rp {product.price.toLocaleString("id-ID")}/{product.unit}
               </span>
             </div>
-            <div className="flex items-center gap-2 mb-2 pb-5 border-b border-[#EBECE2]">
-              <span className="text-xs sm:text-sm text-[#878680]">
-                ({product.reviewCount} Ulasan Pelanggan)
+            <div className="flex items-center gap-2 mb-4 pb-4 border-b border-[#EBECE2]">
+              <div className="flex">
+                {renderStars(product.rating, 16)}
+              </div>
+              <span className="text-xs sm:text-sm text-[#878680] font-medium">
+                ({product.reviewCount} Ulasan Terverifikasi)
               </span>
             </div>
-            <p className="text-sm sm:text-base text-[#878680] mb-6 leading-relaxed">
-              {product.description}
+
+            {/* Farmer Traceability Profile */}
+            <div 
+              className="bg-green-50/50 border border-green-100 rounded-xl p-3 sm:p-4 mb-6 hover:bg-green-100 hover:border-green-300 transition-all cursor-pointer group"
+              onClick={() => navigate(`/petani/1`)}
+            >
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img
+                    src={product.farmer.avatar}
+                    alt={product.farmer.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm bg-gray-200"
+                    onError={(e) => {
+                      e.target.src = "https://ui-avatars.com/api/?name=" + product.farmer.name + "&background=4BAF47&color=fff";
+                    }}
+                  />
+                  <div className="absolute -bottom-1 -right-1 bg-[#4BAF47] p-0.5 rounded-full">
+                    <Shield size={10} className="text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="text-[10px] text-[#4BAF47] font-bold uppercase tracking-wider mb-0.5 group-hover:text-green-700 transition-colors">Penanam Lokal</p>
+                  <h4 className="text-sm sm:text-base font-bold text-[#1F1E17] leading-tight group-hover:text-[#15803D] transition-colors">{product.farmer.name}</h4>
+                  <p className="text-[11px] text-[#878680]">{product.farmer.group}</p>
+                </div>
+                <div className="text-right border-l border-green-100 pl-3 group-hover:border-green-300 transition-colors">
+                  <div className="flex items-center gap-1 justify-end text-[#4BAF47]">
+                    <MapPin size={12} fill="currentColor" className="opacity-20" />
+                    <span className="text-[11px] font-bold">{product.farmer.location}</span>
+                  </div>
+                  <p className="text-[10px] text-[#878680]">Jarak: <span className="text-[#4BAF47] font-bold">{product.farmer.distance} KM</span></p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-sm sm:text-base text-[#878680] mb-6 leading-relaxed italic border-l-4 border-[#EEC044] pl-4">
+              "{product.description}"
             </p>
+
+            {/* Freshness Status Indicator */}
+            <div className="mb-6 p-3 bg-orange-50 rounded-lg border border-orange-100">
+              <div className="flex items-start gap-2">
+                {product.status.type === 'preorder' ? (
+                  <Leaf size={18} className="text-orange-600 mt-0.5" />
+                ) : (
+                  <Zap size={18} className="text-[#4BAF47] mt-0.5" />
+                )}
+                <div>
+                  <p className="text-xs font-bold text-orange-800 flex items-center gap-2">
+                    STATUS: {product.status.label.toUpperCase()}
+                  </p>
+                  <p className="text-[11px] text-orange-700 leading-tight mt-0.5">
+                    {product.status.description}
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Jumlah Pembelian */}
             <div className="mb-6">
@@ -291,23 +345,61 @@ const ProductDetailPage = () => {
               </button>
             </div>
 
-            {/* Dilindungi Sistem Escrow */}
-            <div className="flex items-center gap-2 pt-4 border-t border-gray-200">
-              <Shield size={18} className="text-[#EEC044]" />
-              <p className="text-xs sm:text-sm text-gray-500">
-                Dilindungi Sistem Escrow
+            {/* Dilindungi Sistem Escrow - High Contrast */}
+            <div className="flex items-center justify-center gap-2.5 py-3 bg-green-50 rounded-lg border border-green-200">
+              <Lock size={18} className="text-[#15803D] fill-[#15803D]/10" />
+              <p className="text-xs sm:text-sm font-bold text-[#15803D] uppercase tracking-wide">
+                100% Pembayaran Aman dengan Sistem Escrow
               </p>
             </div>
           </div>
         </div>
 
-        {/* Deskripsi Produk */}
+        {/* Spesifikasi Panen Agritech */}
         <div className="mb-8 sm:mb-12">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1F1E17] mb-4 border-b border-gray-200 pb-2">
-            Deskripsi Produk
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1F1E17] mb-6 border-b-2 border-[#4BAF47] pb-2 inline-block">
+            Spesifikasi Panen & Traceability
           </h2>
-          <div className="text-sm sm:text-base text-[#878680] leading-relaxed whitespace-pre-line">
-            {product.fullDescription}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-4">
+              <div className="bg-white p-2.5 rounded-lg shadow-sm">
+                <Zap size={20} className="text-[#4BAF47]" />
+              </div>
+              <div>
+                <p className="text-[11px] text-[#878680] uppercase font-bold tracking-wider">Metode Tanam</p>
+                <p className="text-sm font-bold text-[#1F1E17]">{product.specs.method}</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-4">
+              <div className="bg-white p-2.5 rounded-lg shadow-sm">
+                <MapPin size={20} className="text-[#4BAF47]" />
+              </div>
+              <div>
+                <p className="text-[11px] text-[#878680] uppercase font-bold tracking-wider">Ketinggian Kebun</p>
+                <p className="text-sm font-bold text-[#1F1E17]">{product.specs.altitude}</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-4">
+              <div className="bg-white p-2.5 rounded-lg shadow-sm">
+                <Shield size={20} className="text-[#4BAF47]" />
+              </div>
+              <div>
+                <p className="text-[11px] text-[#878680] uppercase font-bold tracking-wider">Standar Kualitas</p>
+                <p className="text-sm font-bold text-[#1F1E17]">{product.specs.grade}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 p-4 bg-green-50/30 rounded-xl border-2 border-dashed border-green-200">
+            <div className="flex items-center gap-3">
+              <Bot size={24} className="text-[#4BAF47]" />
+              <p className="text-xs sm:text-sm text-[#1F1E17] font-medium leading-relaxed">
+                <span className="font-bold text-[#4BAF47]">Saran AgriBot:</span> {product.specs.aiTip}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -453,9 +545,15 @@ const ProductDetailPage = () => {
             </p>
           </div>
 
-          <h3 className="text-xl sm:text-2xl font-bold text-[#1F1E17] mb-4 sm:mb-6">
-            Lahat Produk Lainnya
-          </h3>
+          <div className="mb-4 sm:mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#1F1E17] flex items-center gap-2">
+              <Sparkles size={24} className="text-[#EEC044] fill-[#EEC044]/20" />
+              AgriBot Merekomendasikan untuk Anda
+            </h3>
+            <p className="text-xs sm:text-sm text-[#878680] mt-1 italic">
+              "Pelanggan yang membeli Tomat biasanya juga membeli bahan-bahan ini untuk membuat Sambal atau Sayur Sop yang lezat."
+            </p>
+          </div>
 
           {/* Product Grid - 4 products responsive */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">

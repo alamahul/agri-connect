@@ -93,6 +93,9 @@ const CustomerPreOrder = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [paymentType, setPaymentType] = useState('Lunas');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 
   const filteredData = HARVEST_DATA.filter(item => item.harvestDate === selectedDate);
 
@@ -141,7 +144,10 @@ const CustomerPreOrder = () => {
       <div className="space-y-3">
         <div className="flex items-center justify-between px-2">
           <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Jadwal Panen Terdekat</h4>
-          <span className="text-xs font-bold text-amber-600 flex items-center gap-1 cursor-pointer hover:underline">
+          <span
+            onClick={() => setShowCalendarModal(true)}
+            className="text-xs font-bold text-amber-600 flex items-center gap-1 cursor-pointer hover:underline"
+          >
             Lihat Kalender <ArrowRight size={12} />
           </span>
         </div>
@@ -250,7 +256,10 @@ const CustomerPreOrder = () => {
               <p className="text-sm text-gray-500 font-medium">Bantu petani tahu apa yang harus ditanam selanjutnya. Kami akan sampaikan permintaan Anda ke ribuan mitra petani.</p>
             </div>
           </div>
-          <button className="whitespace-nowrap bg-white border-2 border-amber-400 text-amber-600 hover:bg-amber-400 hover:text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-lg active:scale-95">
+          <button
+            onClick={() => setShowRequestModal(true)}
+            className="whitespace-nowrap bg-white border-2 border-amber-400 text-amber-600 hover:bg-amber-400 hover:text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-lg active:scale-95"
+          >
             Ajukan Jadwal Tanam
           </button>
         </div>
@@ -262,24 +271,21 @@ const CustomerPreOrder = () => {
       {showModal && selectedItem && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowModal(false)}></div>
-          <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-xl relative z-10 p-10 animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 overflow-hidden">
+          <div className="bg-white rounded-[6px] shadow-2xl w-full max-w-lg relative z-10 p-6 md:p-8 animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 overflow-y-auto max-h-[95vh] custom-scrollbar">
             {/* Decorative element */}
             <div className="absolute top-0 right-0 p-8 opacity-5">
               <ShieldCheck size={180} />
             </div>
 
             <div className="relative z-10">
-              <div className="flex justify-between items-start mb-8">
+              <div className="flex justify-between items-start mb-6">
                 <div>
                   <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">Detail Booking Panen</h3>
                   <p className="text-sm text-gray-400 font-medium mt-1">Selesaikan pemesanan untuk jaminan stok produk paling segar.</p>
                 </div>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <X size={24} />
-                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="space-y-6">
                   <div className="bg-neutral-50 p-6 rounded-3xl border border-gray-100 flex gap-4">
                     <img src={selectedItem.image} className="w-16 h-16 rounded-2xl object-cover" alt="" />
@@ -311,8 +317,8 @@ const CustomerPreOrder = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-[2rem] p-8 border border-gray-100">
-                  <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 block text-center">Pilih Metode Pembayaran</h4>
+                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col justify-center">
+                  <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 block text-center">Pilih Metode Pembayaran</h4>
                   <div className="space-y-3">
                     <button
                       onClick={() => setPaymentType('DP')}
@@ -330,7 +336,7 @@ const CustomerPreOrder = () => {
                     </button>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-gray-200">
+                  <div className="mt-6 pt-4 border-t border-gray-200">
                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 leading-none italic">Evaluasi Risiko</p>
                     <div className="flex gap-2 items-start text-xs font-bold text-gray-500 leading-relaxed italic">
                       <TrendingDown size={14} className="text-red-400 flex-shrink-0 mt-0.5" />
@@ -340,7 +346,7 @@ const CustomerPreOrder = () => {
                 </div>
               </div>
 
-              <div className="bg-green-50/50 border border-green-100 p-5 rounded-2xl flex items-start gap-4 mb-8">
+              <div className="bg-green-50/50 border border-green-100 p-4 rounded-xl flex items-start gap-3 mb-6">
                 <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-green-200 shrink-0">
                   <ShieldCheck size={20} />
                 </div>
@@ -363,6 +369,155 @@ const CustomerPreOrder = () => {
                   Konfirmasi Booking & Bayar
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- ADDED MODALS --- */}
+
+      {/* 5. Full Calendar Modal */}
+      {showCalendarModal && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowCalendarModal(false)}></div>
+          <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl relative z-10 p-8 animate-in zoom-in-95 duration-500 overflow-y-auto max-h-[90vh]">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-2xl font-black text-gray-900 uppercase">Pilih Tanggal Panen</h3>
+              <button onClick={() => setShowCalendarModal(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-3">
+              {[...Array(30)].map((_, i) => {
+                const day = i + 1;
+                const fullDate = `${day} Maret 2026`;
+                const isSelected = selectedDate === fullDate;
+                const hasHarvest = HARVEST_DATA.some(h => h.harvestDate === fullDate);
+
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setSelectedDate(fullDate);
+                      setShowCalendarModal(false);
+                    }}
+                    className={`
+                      aspect-square p-2 flex flex-col items-center justify-center rounded-2xl border-2 transition-all
+                      ${isSelected ? 'bg-neutral-900 border-neutral-900 text-white shadow-xl scale-105' : 'bg-white border-gray-100 text-gray-400 hover:border-amber-400'}
+                    `}
+                  >
+                    <span className="text-[10px] font-bold opacity-60">Mar</span>
+                    <span className="text-lg font-black">{day}</span>
+                    {hasHarvest && <div className={`w-1 h-1 rounded-full mt-1 ${isSelected ? 'bg-amber-400' : 'bg-amber-500'}`}></div>}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 flex items-center gap-4 text-xs font-bold text-gray-400 px-2">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-amber-500"></div> Ada Panen
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-gray-200"></div> Kosong
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. Request Planting Modal */}
+      {showRequestModal && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-neutral-900/80 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setShowRequestModal(false)}></div>
+          <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg relative z-10 p-10 animate-in slide-in-from-bottom-10 duration-500">
+            <div className="mb-8">
+              <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mb-4">
+                <Plus size={32} />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 uppercase">Ajukan Jadwal Tanam</h3>
+              <p className="text-sm text-gray-400 font-medium mt-1">Sampaikan kebutuhan komoditas Anda langsung ke jaringan petani kami.</p>
+            </div>
+
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              setShowRequestModal(false);
+              setIsRequestSuccess(true);
+              setTimeout(() => setIsRequestSuccess(false), 5000);
+            }} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Komoditas yang Dibutuhkan</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Contoh: Kubis Ungu, Brokoli Organik..."
+                  className="w-full bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-amber-400 outline-none transition-all"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Target Panen</label>
+                  <input
+                    required
+                    type="date"
+                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-amber-400 outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Estimasi Jumlah (Kg)</label>
+                  <input
+                    required
+                    type="number"
+                    placeholder="Minimal 5 Kg"
+                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-amber-400 outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Catatan Tambahan (Opsional)</label>
+                <textarea
+                  placeholder="Jelaskan spesifikasi produk yang diinginkan..."
+                  className="w-full bg-gray-50 border border-gray-100 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-amber-400 outline-none transition-all"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowRequestModal(false)}
+                  className="flex-1 py-4 bg-gray-100 text-gray-500 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-all"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="flex-[2] py-4 bg-neutral-900 hover:bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-neutral-200 transition-all active:scale-95"
+                >
+                  Kirim Permintaan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Request Success Notification */}
+      {isRequestSuccess && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] animate-in slide-in-from-bottom-20 duration-500">
+          <div className="bg-amber-400 text-black rounded-[2rem] p-6 shadow-2xl border border-white/20 flex items-center gap-6 pr-12">
+            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+              <CheckCircle size={28} className="text-amber-500" />
+            </div>
+            <div>
+              <h4 className="text-lg font-black uppercase tracking-tight leading-none mb-1">Permintaan Dikirim!</h4>
+              <p className="text-sm font-medium leading-tight text-black/70">Permintaan tanam Anda telah diteruskan ke mitra petani di wilayah terdekat.</p>
+            </div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-20">
+              <Zap size={48} className="fill-current" />
             </div>
           </div>
         </div>

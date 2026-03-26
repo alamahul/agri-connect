@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { LayoutDashboard, Users, Package, FileText, BarChart3, HelpCircle, Settings, Menu, Shield, ChevronLeft, ChevronRight, LogOut, Database, Bell, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import logoOnly from '../assets/logo-only.png';
 
 const AdminLayout = () => {
@@ -8,6 +10,13 @@ const AdminLayout = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const notifications = [
     { id: 1, title: 'Security Alert', message: 'Suspicious login attempt from IP 192.168.1.100', time: '1min ago', unread: true },
@@ -243,7 +252,7 @@ const AdminLayout = () => {
                   <button
                     onClick={() => {
                       setIsProfileOpen(false);
-                      // Handle logout logic here
+                      handleLogout();
                     }}
                     className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-1"
                   >

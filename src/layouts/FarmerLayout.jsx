@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { LayoutDashboard, Box, ShoppingBag, BarChart3, HelpCircle, Settings, Menu, X, ChevronLeft, ChevronRight, User, LogOut, ShoppingCart, Bell, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import logoOnly from '../assets/logo-only.png';
 
@@ -9,6 +10,13 @@ const FarmerLayout = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const notifications = [
     { id: 1, title: 'Pesanan Baru', message: 'Ada pesanan masuk untuk 5kg Bawang Merah', time: '5mnt yang lalu', unread: true },
@@ -224,7 +232,7 @@ const FarmerLayout = () => {
                   <button
                     onClick={() => {
                       setIsProfileOpen(false);
-                      // Handle logout logic here
+                      handleLogout();
                     }}
                     className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100 mt-1"
                   >
