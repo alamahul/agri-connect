@@ -19,7 +19,8 @@ import {
    Facebook,
    MessageCircle,
    Clock,
-   ExternalLink
+   ExternalLink,
+   Info
 } from 'lucide-react';
 
 const HISTORY_DATA = [
@@ -90,10 +91,162 @@ const CustomerHistory = () => {
    };
 
    const handleDownload = () => {
+      if (!selectedInvoice) return;
+      
       setIsDownloading(true);
+      
+      // Creating a formatted print window for a "real" PDF generation appearance
+      const printWindow = window.open('', '_blank', 'width=800,height=900');
+      
+      const invoiceHtml = `
+         <html>
+         <head>
+            <title>Nota_${selectedInvoice.id.replace(/\//g, '_')}</title>
+            <style>
+               @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+               body { 
+                  font-family: 'Inter', -apple-system, sans-serif; 
+                  padding: 50px; 
+                  color: #1a1a1a;
+                  line-height: 1.6;
+               }
+               .header { 
+                  display: flex; 
+                  justify-content: space-between; 
+                  align-items: center; 
+                  border-bottom: 4px solid #f3f4f6;
+                  padding-bottom: 30px;
+                  margin-bottom: 40px;
+               }
+               .logo { 
+                  font-weight: 900; 
+                  font-size: 24px; 
+                  letter-spacing: -1px; 
+                  background: #000; 
+                  color: #fff; 
+                  padding: 10px 15px;
+                  border-radius: 12px;
+               }
+               .invoice-info { text-align: right; }
+               .invoice-id { font-weight: 900; font-size: 18px; color: #fbbf24; }
+               .section-title { 
+                  font-size: 10px; 
+                  font-weight: 900; 
+                  text-transform: uppercase; 
+                  letter-spacing: 2px; 
+                  color: #9ca3af;
+                  margin-bottom: 15px;
+                  border-bottom: 1px solid #f3f4f6;
+                  padding-bottom: 5px;
+               }
+               .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+               table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+               th { text-align: left; font-size: 12px; color: #9ca3af; padding: 10px 0; }
+               td { padding: 15px 0; border-bottom: 1px solid #f9fafb; font-size: 14px; }
+               .total-box { 
+                  background: #111827; 
+                  color: #fff; 
+                  padding: 30px; 
+                  border-radius: 24px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+               }
+               .total-label { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; }
+               .total-value { font-size: 32px; font-weight: 900; }
+               .footer { text-align: center; margin-top: 60px; font-size: 12px; color: #9ca3af; font-style: italic; }
+               @media print {
+                  body { padding: 20px; }
+                  .no-print { display: none; }
+               }
+            </style>
+         </head>
+         <body>
+            <div class="header">
+               <div class="logo">AC</div>
+               <div class="invoice-info">
+                  <div class="invoice-id">E-NOTA TRANSPARAN</div>
+                  <div style="font-weight: 700; font-size: 14px;">${selectedInvoice.id}</div>
+                  <div style="font-size: 12px; color: #6b7280;">${selectedInvoice.date}, ${selectedInvoice.time}</div>
+               </div>
+            </div>
+
+            <div class="grid">
+               <div>
+                  <div class="section-title">Informasi Petani</div>
+                  <div style="font-weight: 700;">${selectedInvoice.farmer}</div>
+                  <div style="font-size: 13px; color: #6b7280;">${selectedInvoice.farm}</div>
+               </div>
+               <div>
+                  <div class="section-title">Penerima</div>
+                  <div style="font-weight: 700;">Siti Aminah</div>
+                  <div style="font-size: 13px; color: #6b7280;">Jl. Kebagusan Raya No. 12, Jakarta</div>
+               </div>
+            </div>
+
+            <div class="section-title">Rincian Hasil Panen</div>
+            <table>
+               <thead>
+                  <tr>
+                     <th>NAMA PRODUK</th>
+                     <th style="text-align: center;">JUMLAH</th>
+                     <th style="text-align: right;">HARGA SATUAN</th>
+                     <th style="text-align: right;">SUBTOTAL</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  ${selectedInvoice.items.map(item => `
+                     <tr>
+                        <td style="font-weight: 700;">${item.name}</td>
+                        <td style="text-align: center;">${item.qty} ${item.unit}</td>
+                        <td style="text-align: right;">Rp ${item.price.toLocaleString('id-ID')}</td>
+                        <td style="text-align: right; font-weight: 700;">Rp ${(item.qty * item.price).toLocaleString('id-ID')}</td>
+                     </tr>
+                  `).join('')}
+               </tbody>
+            </table>
+
+            <div style="width: 250px; margin-left: auto; margin-bottom: 30px;">
+               <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
+                  <span style="color: #6b7280;">Biaya Logistik</span>
+                  <span style="font-weight: 700;">Rp ${selectedInvoice.logistics.toLocaleString('id-ID')}</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                  <span style="color: #6b7280;">Biaya Layanan</span>
+                  <span style="font-weight: 700;">Rp ${selectedInvoice.serviceFee.toLocaleString('id-ID')}</span>
+               </div>
+            </div>
+
+            <div class="total-box">
+               <div>
+                  <div class="total-label">Total Pembayaran</div>
+                  <div style="font-size: 10px; color: #fbbf24; font-weight: 700;">STATUS: LUNAS (ESCROW AMAN)</div>
+               </div>
+               <div class="total-value">Rp ${(selectedInvoice.productTotal + selectedInvoice.logistics + selectedInvoice.serviceFee).toLocaleString('id-ID')}</div>
+            </div>
+
+            <div class="footer">
+               <p>"Terima kasih telah menyejahterakan petani lokal hari ini."</p>
+               <p>&copy; 2026 AgriConnect Indonesia - Digitalisasi Rantai Pangan Indonesia</p>
+            </div>
+
+            <script>
+               window.onload = function() {
+                  setTimeout(() => {
+                     window.print();
+                     // We don't close the window immediately because it might cancel the print in some browsers
+                  }, 500);
+               };
+            </script>
+         </body>
+         </html>
+      `;
+
+      printWindow.document.write(invoiceHtml);
+      printWindow.document.close();
+
       setTimeout(() => {
          setIsDownloading(false);
-         // alert('Invoice downloaded as PDF');
       }, 2000);
    };
 
