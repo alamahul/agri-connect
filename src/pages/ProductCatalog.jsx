@@ -1,9 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { Shield, Star, Lock, MapPin, Bot } from "lucide-react";
 import { useState } from "react";
-import imageFarmer1 from "./../assets/farmer1.png";
-import imageFarmer2 from "./../assets/farmer2.jpeg";
-import imageFarmer3 from "./../assets/farmer3.png";
 import sponsor from "./../assets/sponsor-section.png";
 import searchIcon from "./../assets/search-icon.png";
 import Navbar from "../components/Navbar";
@@ -18,7 +15,8 @@ const products = [
     unit: "kg",
     rating: 4.9,
     soldCount: 120,
-    image: "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1526346698789-22fd84314424?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Cabai merah segar langsung dari petani, kualitas terbaik.",
     farmer: "Pak Suparman",
     location: "Lembang",
@@ -33,7 +31,8 @@ const products = [
     unit: "kg",
     rating: 4.8,
     soldCount: 85,
-    image: "https://plus.unsplash.com/premium_photo-1770609621373-3e35cdeaf42c?q=80&w=503&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://plus.unsplash.com/premium_photo-1770609621373-3e35cdeaf42c?q=80&w=503&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Tomat organik tanpa pestisida, manis dan segar.",
     farmer: "Bu Siti",
     location: "Ciwidey",
@@ -48,7 +47,8 @@ const products = [
     unit: "kg",
     rating: 4.3,
     soldCount: 210,
-    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Kentang premium ukuran besar, cocok untuk berbagai masakan.",
     farmer: "Pak Budi",
     location: "Pangalengan",
@@ -63,7 +63,8 @@ const products = [
     unit: "kg",
     rating: 4.6,
     soldCount: 150,
-    image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Wortel import segar, kaya vitamin A.",
     farmer: "Bu Dewi",
     location: "Lembang",
@@ -78,7 +79,8 @@ const products = [
     unit: "kg",
     rating: 4.7,
     soldCount: 65,
-    image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Apel manalagi segar, renyah dan manis.",
     farmer: "Pak Hendra",
     location: "Malang",
@@ -93,7 +95,8 @@ const products = [
     unit: "kg",
     rating: 4.4,
     soldCount: 92,
-    image: "https://images.unsplash.com/photo-1636277009869-b182eb55347d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1636277009869-b182eb55347d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Jeruk medan manis, kaya vitamin C.",
     farmer: "Bu Ratna",
     location: "Medan",
@@ -108,7 +111,8 @@ const products = [
     unit: "kg",
     rating: 4.2,
     soldCount: 300,
-    image: "https://images.unsplash.com/photo-1565685225009-fc85d9109c80?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1565685225009-fc85d9109c80?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Bawang merah segar, aroma khas untuk masakan.",
     farmer: "Pak Joko",
     location: "Brebes",
@@ -123,7 +127,8 @@ const products = [
     unit: "sisir",
     rating: 4.5,
     soldCount: 110,
-    image: "https://plus.unsplash.com/premium_photo-1675731118330-08c71253af17?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://plus.unsplash.com/premium_photo-1675731118330-08c71253af17?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Pisang ambon manis, cocok untuk camilan sehat.",
     farmer: "Bu Lina",
     location: "Lampung",
@@ -138,7 +143,8 @@ const products = [
     unit: "kg",
     rating: 4.9,
     soldCount: 45,
-    image: "https://images.unsplash.com/photo-1757332334626-8dadb145540d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1757332334626-8dadb145540d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Broccoli organik segar, kaya serat and antioksidan.",
     farmer: "Pak Rudi",
     location: "Lembang",
@@ -153,7 +159,8 @@ const products = [
     unit: "kg",
     rating: 4.3,
     soldCount: 180,
-    image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Semangka merah manis, segar untuk pelepas dahaga.",
     farmer: "Bu Ani",
     location: "Indramayu",
@@ -168,7 +175,8 @@ const products = [
     unit: "ikat",
     rating: 4.1,
     soldCount: 500,
-    image: "https://plus.unsplash.com/premium_photo-1701699257548-8261a687236f?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://plus.unsplash.com/premium_photo-1701699257548-8261a687236f?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Bayam hijau segar, kaya zat besi.",
     farmer: "Pak Slamet",
     location: "Cisarua",
@@ -183,7 +191,8 @@ const products = [
     unit: "kg",
     rating: 4.8,
     soldCount: 220,
-    image: "https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Mangga harum manis legit, buah favorit keluarga.",
     farmer: "Bu Yanti",
     location: "Cirebon",
@@ -210,11 +219,12 @@ const ProductCatalog = () => {
         .includes(searchTerm.toLowerCase());
       const matchesCategory =
         !selectedCategory || product.category === selectedCategory;
-      
+
       let matchesDistance = true;
       if (distanceFilter === "dekat") matchesDistance = product.distance <= 30;
-      else if (distanceFilter === "jauh") matchesDistance = product.distance > 30;
-      
+      else if (distanceFilter === "jauh")
+        matchesDistance = product.distance > 30;
+
       return matchesSearch && matchesCategory && matchesDistance;
     })
     .sort((a, b) => {
@@ -242,10 +252,11 @@ const ProductCatalog = () => {
                 {index > 0 && <span className="mx-1 sm:mx-2">/</span>}
                 <Link
                   to={index === 0 ? "/" : "#"}
-                  className={`${index === breadcrumb.length - 1
-                    ? "text-[#EEC044]"
-                    : "hover:text-[#EEC044]"
-                    } transition text-xs sm:text-sm`}
+                  className={`${
+                    index === breadcrumb.length - 1
+                      ? "text-[#EEC044]"
+                      : "hover:text-[#EEC044]"
+                  } transition text-xs sm:text-sm`}
                 >
                   {item}
                 </Link>
@@ -381,16 +392,23 @@ const ProductCatalog = () => {
 
                     {/* Social Proof: Rating & Sold */}
                     <div className="flex items-center gap-1 mt-1">
-                      <Star size={12} className="fill-amber-400 text-amber-400" />
-                      <span className="text-[10px] font-bold text-gray-700">{product.rating}</span>
+                      <Star
+                        size={12}
+                        className="fill-amber-400 text-amber-400"
+                      />
+                      <span className="text-[10px] font-bold text-gray-700">
+                        {product.rating}
+                      </span>
                       <span className="text-[10px] text-gray-400">|</span>
-                      <span className="text-[10px] font-medium text-gray-500 italic">Terjual {product.soldCount} {product.unit}</span>
+                      <span className="text-[10px] font-medium text-gray-500 italic">
+                        Terjual {product.soldCount} {product.unit}
+                      </span>
                     </div>
 
                     {/* Price */}
                     <div className="flex items-center justify-between mt-1">
                       <div>
-                        <span className="text-sm sm:text-base font-bold text-[#15803D]">
+                        <span className="text-sm sm:text-base text-[#15803D]">
                           Rp {product.price.toLocaleString("id-ID")}
                         </span>
                         <span className="text-[10px] sm:text-xs text-[#15803D] ml-0.5 sm:ml-1">
@@ -400,7 +418,7 @@ const ProductCatalog = () => {
                     </div>
 
                     {/* Dari Petani dengan Jarak & Lokasi */}
-                    <div 
+                    <div
                       className="mb-2 mt-2 w-full p-1.5 bg-gray-50 border border-gray-200 rounded-md hover:bg-green-50/50 hover:border-[#4BAF47]/30 transition-all cursor-pointer group/farmer"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -408,13 +426,19 @@ const ProductCatalog = () => {
                       }}
                     >
                       <div className="flex items-start gap-1">
-                        <MapPin size={10} className="mt-0.5 text-[#4BAF47] shrink-0" />
+                        <MapPin
+                          size={10}
+                          className="mt-0.5 text-[#4BAF47] shrink-0"
+                        />
                         <div className="leading-tight text-left">
                           <p className="text-[9px] font-bold text-[#1F1E17] line-clamp-1 group-hover/farmer:text-[#4BAF47] transition-colors">
                             {product.farmer} • {product.location}
                           </p>
-                          <p className={`text-[8px] font-bold ${product.distance <= 30 ? 'text-[#4BAF47]' : 'text-red-500'}`}>
-                            Jarak: {product.distance} KM {product.distance <= 30 ? '(Dekat)' : '(Jauh)'}
+                          <p
+                            className={`text-[8px] font-bold ${product.distance <= 30 ? "text-[#4BAF47]" : "text-red-500"}`}
+                          >
+                            Jarak: {product.distance} KM{" "}
+                            {product.distance <= 30 ? "(Dekat)" : "(Jauh)"}
                           </p>
                         </div>
                       </div>
@@ -433,10 +457,13 @@ const ProductCatalog = () => {
                     </button>
 
                     {/* Dilindungi Sistem Escrow - Improved Contrast */}
-                    <div className="flex items-center justify-center gap-1.5 py-1.5 bg-green-50/50 rounded-lg border border-green-100">
-                      <Lock size={12} className="text-[#15803D] fill-[#15803D]/10" />
-                      <p className="text-[9px] font-black text-[#15803D] uppercase tracking-tighter">
-                        Dana Aman dengan Escrow
+                    <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                      <Shield
+                        size={9}
+                        className="text-[#EEC044] sm:w-3 sm:h-3"
+                      />
+                      <p className="text-[7px] sm:text-[8px] md:text-[9px] text-[#878680]">
+                        Dilindungi Sistem Escrow
                       </p>
                     </div>
                   </div>

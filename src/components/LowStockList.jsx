@@ -15,7 +15,7 @@ const LowStockList = () => {
           </div>
           <div>
             <h3 className="font-semibold text-slate-800">Produk Stok Menipis</h3>
-            <p className="text-xs text-slate-400">Gudang Produk</p>
+            <p className="!text-xs text-slate-400">Gudang Produk</p>
           </div>
         </div>
         <ArrowRight

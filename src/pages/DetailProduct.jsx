@@ -4,9 +4,7 @@ import { useState } from "react";
 import sponsor from "./../assets/sponsor-section.png";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import imageFarmer1 from "./../assets/farmer1.png";
 import imageFarmer2 from "./../assets/farmer2.jpeg";
-import imageFarmer3 from "./../assets/farmer3.png";
 
 const otherProducts = [
   {

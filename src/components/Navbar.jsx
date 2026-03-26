@@ -215,7 +215,7 @@ const Navbar = ({ active, setActive }) => {
         <div className="hidden lg:block">
           <div className="flex justify-center items-center gap-8 xl:gap-16">
             <div>
-              <ul className="text-white text-xs xl:text-sm 2xl:text-base flex gap-6 xl:gap-8">
+              <ul className="text-white !text-xs xl:text-sm 2xl:text-base flex gap-6 xl:gap-8">
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <a
@@ -239,13 +239,13 @@ const Navbar = ({ active, setActive }) => {
                 <>
                   <button
                     onClick={handleDashboardRedirect}
-                    className="flex items-center gap-2 bg-[#4BAF47] hover:bg-[#3E9440] text-white text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px] whitespace-nowrap"
+                    className="flex items-center gap-2 bg-[#4BAF47] hover:bg-[#3E9440] text-white !text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px] whitespace-nowrap"
                   >
                     Gabung sebagai Pembeli
                   </button>
                   <button
                     onClick={handleDashboardRedirect}
-                    className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px] whitespace-nowrap"
+                    className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white !text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px] whitespace-nowrap"
                   >
                     Gabung sebagai Petani
                   </button>
@@ -253,7 +253,7 @@ const Navbar = ({ active, setActive }) => {
               ) : (
                 <button
                   onClick={handleDashboardRedirect}
-                  className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px]"
+                  className="flex items-center gap-2 bg-[#EEC044] hover:bg-[#D4A937] text-white !text-xs xl:text-sm font-semibold px-3 xl:px-4 py-1.5 xl:py-2 rounded-[4px]"
                 >
                   <span className="max-w-[120px] truncate">{user.fullName}</span>
                   <ArrowRight size={15} />

@@ -15,7 +15,7 @@ const ActivityTimeline = () => {
           </div>
           <div>
             <h3 className="font-semibold text-slate-800">Aktivitas Terkini</h3>
-            <p className="text-xs text-slate-400">Analisis &amp; Laporan</p>
+            <p className="!text-xs text-slate-400">Analisis &amp; Laporan</p>
           </div>
         </div>
         <ArrowRight
